@@ -10,11 +10,11 @@ getdatetime=lambda x: pd.datetime.fromtimestamp(x)
 gps_base_path = "s3://weye-archives/device/gps/year={}/month={}/date={}/"
 hb_base_path = "s3://weye-archives/device/hb/year={}/month={}/date={}/"
 
-gps_dir_path = "/data/device/gps/year={}/month={}/date={}"
-hb_dir_path = "/data/device/hb/year={}/month={}/date={}"
+gps_dir_path = "/data/device_dualsim/gps/year={}/month={}/date={}"
+hb_dir_path = "/data/device_dualsim/hb/year={}/month={}/date={}"
 
-gps_data_path = "/data/device/gps/year={}/month={}/date={}/vehicleid={}"
-hb_data_path = "/data/device/hb/year={}/month={}/date={}/vehicleid={}"
+gps_data_path = "/data/device_dualsim/gps/year={}/month={}/date={}/vehicleid={}"
+hb_data_path = "/data/device_dualsim/hb/year={}/month={}/date={}/vehicleid={}"
 
 def get_avro_reader(log_file):
     if hasattr(log_file, 'read'):

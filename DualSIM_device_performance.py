@@ -32,12 +32,6 @@ dttoday=int(tm.time()-tm.time()%86400-19800)
 
 pd.set_option("display.precision", 9)
 
-# take input from user
-# Day for analysys
-# yyyy-mm-dd
-analysis_day = input("Enter Day for Analysis (YYYY-MM-DD): ")
-print("Analysis Day: " + analysis_day)
-
 # read csv for vehicle numbers
 path_vNum = "/home/ubuntu/vibhor/IoT/dualsim_device_performance/vehicle_number.csv"
 vehicle_num = pd.read_csv(path_vNum)
@@ -193,13 +187,22 @@ def run_etl():
     print("Started at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))
     
     try:
+        # take input from user
+        # Day for analysys
+        # yyyy-mm-dd
+        analysis_date = input("Enter Day for Analysis (YYYY-MM-DD): ")
+        print("Analysis Day: " + analysis_date)
         try :
-            analysis_date=dt.date()
+            today=dt.date()
         except:
-            analysis_date=dt.date.today()
+            today=dt.date.today()
 
-        start=gettime(analysis_date)-106200
-        end=gettime(analysis_date)-19800
+        if (gettime(analysis_date) > (gettime(today) - (2*24*60*60))):
+            print("out of date")
+            return None
+        
+        start=gettime(analysis_date)
+        end=gettime(analysis_date) + (24*60*60)
 
         erase_date=getDay(start-(86400*2))
         try:
@@ -215,84 +218,84 @@ def run_etl():
         pool.close()
         pool.join()
 
-        # query="""SELECT vehicle_id,date(actual_live_time) as installation_date,model_name
-        #                             FROM analytics.vehicle_details 
-        #                             WHERE date(actual_live_time) < CURRENT_DATE - INTERVAL'1 day' and 
-        #                             vehicle_state='LIVE' and 
-        #                             vehicle_number in ({})""".format(vnum_sql)
-        # #print(query)
-        # inst_veh=pd.read_sql(query , galaxy)
+        query="""SELECT vehicle_id,date(actual_live_time) as installation_date,model_name
+                                    FROM analytics.vehicle_details 
+                                    WHERE date(actual_live_time) < CURRENT_DATE - INTERVAL'1 day' and 
+                                    vehicle_state='LIVE' and 
+                                    vehicle_number in ({})""".format(vnum_sql)
+        #print(query)
+        inst_veh=pd.read_sql(query , galaxy)
 
-        # vid_sql = ""
-        # for index, vid in enumerate(inst_veh['vehicle_id']):
-        #     vid_sql += str(vid)
-        #     if (index < (len(inst_veh['vehicle_id']) - 1)) :
-        #         vid_sql += ','
-        # #print(vid_sql)
+        vid_sql = ""
+        for index, vid in enumerate(inst_veh['vehicle_id']):
+            vid_sql += str(vid)
+            if (index < (len(inst_veh['vehicle_id']) - 1)) :
+                vid_sql += ','
+        #print(vid_sql)
 
-        # query="""select vehicleid as vehicle_id,date(timestamp 'epoch' + ((fromtime+19800) * interval '1 second')) as analysis_for_day,
-        #                 count(*) as no_info_instances,round(sum((totime-fromtime)*1.00/3600)/no_info_instances,2) as avg_no_info_hrs
-        #          from trucking.trucking_mongo_devicehistory
-        #          where analysis_for_day='{}' and
-        #          vehicle_id in ({})  
-        #          group by 1,2""".format(str(analysis_date-dt.timedelta(days=2)),vid_sql)
-        # #print(query)
-        # no_info_data=pd.read_sql(query , galaxy)
-        # print(no_info_data)
+        query="""select vehicleid as vehicle_id,date(timestamp 'epoch' + ((fromtime+19800) * interval '1 second')) as analysis_for_day,
+                        count(*) as no_info_instances,round(sum((totime-fromtime)*1.00/3600)/no_info_instances,2) as avg_no_info_hrs
+                 from trucking.trucking_mongo_devicehistory
+                 where analysis_for_day='{}' and
+                 vehicle_id in ({})  
+                 group by 1,2""".format(str(analysis_date),vid_sql)
+        #print(query)
+        no_info_data=pd.read_sql(query , galaxy)
+        print(no_info_data)
 
-        # query="""select vehicleid as vehicle_id,date(timestamp 'epoch' + ((time+19800) * interval '1 second')) as analysis_for_day,
-        #                 round(distance/1000,2) as total_km,round(noinfodistance/1000,2) as no_info_km
-        #          from analytics.vehicledaydata
-        #          where analysis_for_day='{}' """.format(str(analysis_date-dt.timedelta(days=2)))
-        # distance_data=pd.read_sql(query , galaxy)
+        query="""select vehicleid as vehicle_id,date(timestamp 'epoch' + ((time+19800) * interval '1 second')) as analysis_for_day,
+                        round(distance/1000,2) as total_km,round(noinfodistance/1000,2) as no_info_km
+                 from analytics.vehicledaydata
+                 where analysis_for_day='{}' """.format(str(analysis_date))
+        distance_data=pd.read_sql(query , galaxy)
 
-        # inst_veh['installation_date']=pd.to_datetime(inst_veh['installation_date'])
+        inst_veh['installation_date']=pd.to_datetime(inst_veh['installation_date'])
 
-        # installed15=inst_veh
-        # installed15.sort_values(by='installation_date',ascending=True,inplace=True)
+        installed15=inst_veh
+        installed15.sort_values(by='installation_date',ascending=True,inplace=True)
 
-        # analysis_of=list(installed15['vehicle_id'].unique())
-        # vehicle_list=[[int(start-86400),int(end-86400),int(x)] for x in analysis_of]
+        analysis_of=list(installed15['vehicle_id'].unique())
+        vehicle_list=[[int(start),int(end),int(x)] for x in analysis_of]
 
-        # final=[]
-        # for j in tqdm(range(0,len(vehicle_list),1000)):
-        #     import multiprocessing
-        #     pool = multiprocessing.Pool(10)
-        #     results1=pool.map(ping_analysis,vehicle_list[j:(j+1000)])
-        #     pool.close()
-        #     pool.join()
-        #     final+=results1
-        # data1=pd.DataFrame(final,columns=['vehicle_id','consistency_pct','live_pct','gsm_average','heart_beat','analysis_for_day'])
-        # result3=pd.merge(data1 , installed15[['vehicle_id','model_name','installation_date']],how='left',on='vehicle_id')
-        # result2=pd.merge(result3 , no_info_data, how='left',on=['vehicle_id','analysis_for_day'])
-        # result=pd.merge(result2 , distance_data, how='left',on=['vehicle_id','analysis_for_day'])
-        # result.fillna(0,inplace=True)
-        # result['analysis_for_day']=result['analysis_for_day'].apply(lambda x : pd.to_datetime(x , format="%Y-%m-%d",errors='coerce'))
-        # result['days_post_installation']=result['analysis_for_day']-result['installation_date']
-        # result['days_post_installation']=result.apply(lambda x : x['days_post_installation'].days,axis=1)
-        # result['online']=result['consistency_pct'].apply(lambda x : False if x==0 else True)
-        # #result.to_pickle('/home/ubuntu/vibhor/IoT/master_device_performance/check.pkl')
-        # print(data1)
-        # print("Done1")
+        final=[]
+        for j in tqdm(range(0,len(vehicle_list),1000)):
+            import multiprocessing
+            pool = multiprocessing.Pool(10)
+            results1=pool.map(ping_analysis,vehicle_list[j:(j+1000)])
+            pool.close()
+            pool.join()
+            final+=results1
+        data1=pd.DataFrame(final,columns=['vehicle_id','consistency_pct','live_pct','gsm_average','heart_beat','analysis_for_day'])
+        result3=pd.merge(data1 , installed15[['vehicle_id','model_name','installation_date']],how='left',on='vehicle_id')
+        result2=pd.merge(result3 , no_info_data, how='left',on=['vehicle_id','analysis_for_day'])
+        result=pd.merge(result2 , distance_data, how='left',on=['vehicle_id','analysis_for_day'])
+        result.fillna(0,inplace=True)
+        result['analysis_for_day']=result['analysis_for_day'].apply(lambda x : pd.to_datetime(x , format="%Y-%m-%d",errors='coerce'))
+        result['days_post_installation']=result['analysis_for_day']-result['installation_date']
+        result['days_post_installation']=result.apply(lambda x : x['days_post_installation'].days,axis=1)
+        result['online']=result['consistency_pct'].apply(lambda x : False if x==0 else True)
+        #result.to_pickle('/home/ubuntu/vibhor/IoT/master_device_performance/check.pkl')
+        print(data1)
+        print("Done1")
         
-        #previous_data=pd.read_sql("select * from analytics.master_device_performance limit 1",galaxy)
-        #result=result[previous_data.columns]
-        #print("Done2")
+        # previous_data=pd.read_sql("select * from analytics.master_device_performance limit 1",galaxy)
+        # result=result[previous_data.columns]
+        # print("Done2")
       
-        #data=result
-        #table_name='master_device_performance'
-        #update_type='append_concat'
-        #if update_type != 'update_table':
+        # data=result
+        # table_name='master_device_performance'
+        # update_type='append_concat'
+        # if update_type != 'update_table':
         #    col_name=None
-        #else:
+        # else:
         #    col_name=etl_data[3]
-        #print("Done3")
-        #upload_s3_to_redshift_new.upload_to_s3(data,table_name)
-        #print("Done4")
-        #upload_s3_to_redshift_new.update_execute(update_type,data,table_name,col_name)
-        #print("Done5")
-        #upload_s3_to_redshift_new.delete_from_s3(table_name)
-        #print("Done6")
+        # print("Done3")
+        # upload_s3_to_redshift_new.upload_to_s3(data,table_name)
+        # print("Done4")
+        # upload_s3_to_redshift_new.update_execute(update_type,data,table_name,col_name)
+        # print("Done5")
+        # upload_s3_to_redshift_new.delete_from_s3(table_name)
+        # print("Done6")
    
     except Exception as e:
         print("The error is: {}".format(e))

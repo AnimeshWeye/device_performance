@@ -181,8 +181,9 @@ def run_etl():
         # take input from user
         # Day for analysys
         # yyyy-mm-dd
-        analysis_date = input("Enter Day for Analysis (YYYY-MM-DD): ")
-        print("Analysis Day: " + analysis_date)
+        # analysis_date = input("Enter Day for Analysis (YYYY-MM-DD): ")
+        # print("Analysis Day: " + analysis_date)
+        analysis_date = "2022-01-13"
         try :
             today=dt.date()
         except:

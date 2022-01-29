@@ -211,8 +211,8 @@ def run_etl():
 
         erase_date=getDay(start-(86400*2))
         try:
-            shutil.rmtree(s3_module.get_hb_dir_path(erase_date.year, erase_date.month, erase_date.day))
-            shutil.rmtree(s3_module.get_gps_dir_path(erase_date.year, erase_date.month, erase_date.day))
+            shutil.rmtree(s3_module.get_hb_dir_path_erase())
+            shutil.rmtree(s3_module.get_gps_dir_path_erase())
         except Exception as e:    
             print(e)
 

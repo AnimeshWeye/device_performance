@@ -32,17 +32,8 @@ dttoday=int(tm.time()-tm.time()%86400-19800)
 
 pd.set_option("display.precision", 9)
 
-# read csv for vehicle numbers
+# path for vehicle number csv
 path_vNum = "/home/ubuntu/vibhor/IoT/dualsim_device_performance/vehicle_number.csv"
-vehicle_num = pd.read_csv(path_vNum)
-
-vnum_sql = ""
-for index, vnum in enumerate(vehicle_num['vehicle_number']):
-    vnum_sql += "'" + str(vnum) + "'"
-    if (index < (len(vehicle_num['vehicle_number']) - 1)):
-        vnum_sql += ','
-
-#print(vnum_sql)
 
 def haversine(L1,L2):
     """
@@ -200,6 +191,19 @@ def run_etl():
         if (gettime(analysis_date) > (gettime(today) - (2*24*60*60))):
             print("out of date")
             return None
+
+        # read csv for vehicle numbers
+        try:
+            vehicle_num = pd.read_csv(path_vNum)
+            vnum_sql = ""
+            for index, vnum in enumerate(vehicle_num['vehicle_number']):
+                vnum_sql += "'" + str(vnum) + "'"
+                if (index < (len(vehicle_num['vehicle_number']) - 1)):
+                    vnum_sql += ','
+
+            #print(vnum_sql)
+        except Exception as e:
+            print("The error is: {}".format(e))
         
         start=gettime(analysis_date)
         end=gettime(analysis_date) + (24*60*60)
@@ -241,7 +245,7 @@ def run_etl():
                  group by 1,2""".format(str(analysis_date),vid_sql)
         #print(query)
         no_info_data=pd.read_sql(query , galaxy)
-        print(no_info_data)
+        # print(no_info_data)
 
         query="""select vehicleid as vehicle_id,date(timestamp 'epoch' + ((time+19800) * interval '1 second')) as analysis_for_day,
                         round(distance/1000,2) as total_km,round(noinfodistance/1000,2) as no_info_km

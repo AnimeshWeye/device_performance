@@ -10,8 +10,8 @@ getdatetime=lambda x: pd.datetime.fromtimestamp(x)
 gps_base_path = "s3://weye-archives/device/gps/year={}/month={}/date={}/"
 hb_base_path = "s3://weye-archives/device/hb/year={}/month={}/date={}/"
 
-gps_dir_path = "/data/device_dualsim/gps/year={}/month={}/date={}"
-hb_dir_path = "/data/device_dualsim/hb/year={}/month={}/date={}"
+gps_dir_path = "/data/device_dualsim/gps/"
+hb_dir_path = "/data/device_dualsim/hb/"
 
 gps_data_path = "/data/device_dualsim/gps/year={}/month={}/date={}/vehicleid={}"
 hb_data_path = "/data/device_dualsim/hb/year={}/month={}/date={}/vehicleid={}"
@@ -38,11 +38,13 @@ def get_hb_base_path(year, month, date):
     return s3_path_hb
 
 def get_gps_dir_path(year, month, date):
-    s3_dir_gps = gps_dir_path.format("%04d" % (year), "%02d" % (month), "%02d" % date)
+    # s3_dir_gps = gps_dir_path.format("%04d" % (year), "%02d" % (month), "%02d" % date)
+    s3_dir_gps = gps_dir_path
     return s3_dir_gps
 
 def get_hb_dir_path(year, month, date):
-    s3_dir_hb = hb_dir_path.format("%04d" % (year), "%02d" % (month), "%02d" % date)
+    # s3_dir_hb = hb_dir_path.format("%04d" % (year), "%02d" % (month), "%02d" % date)
+    s3_dir_hb = hb_dir_path
     return s3_dir_hb
 
 def get_gps_data_path(year, month, date, vehicle_id):

@@ -210,6 +210,7 @@ def run_etl():
         
         start=gettime(analysis_date)
         end=gettime(analysis_date) + (24*60*60)
+        print(start, getDay(start))
 
         # erase_date=getDay(start-(86400*2))
         # try:

@@ -82,11 +82,11 @@ def downloadGpsFroms3(epochtime):
     from_date = getdate(epochtime)
     gps_storage_path = get_gps_dir_path(from_date.year, from_date.month, from_date.day)
     # read csv for reading vehicle id to download
-    try:
-        vid_df = pd.read_csv(vid_path)
-        print(vid_df)
-    except Exception as e:
-        print("The error is: {}".format(e))
+    # try:
+    vid_df = pd.read_csv(vid_path)
+    print(vid_df)
+    # except Exception as e:
+        # print("The error is: {}".format(e))
     for v_id in vid_df['vehicle_id']:
         gps_path = get_gps_base_path_sp(from_date.year, from_date.month, from_date.day, v_id)
         os.system("aws s3 --region ap-south-1 cp {} {} --recursive".format(gps_path,gps_storage_path))

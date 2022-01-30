@@ -210,14 +210,14 @@ def run_etl():
         
         start=gettime(analysis_date)
         end=gettime(analysis_date) + (24*60*60)
-        print(start, getDay(start))
+        # print(start, getDay(start))
 
-        # erase_date=getDay(start-(86400*2))
-        # try:
-        #     shutil.rmtree(s3_module.get_hb_dir_path_erase())
-        #     shutil.rmtree(s3_module.get_gps_dir_path_erase())
-        # except Exception as e:    
-        #     print(e)
+        erase_date=getDay(start)
+        try:
+            shutil.rmtree(s3_module.get_hb_dir_path_erase(erase_date.year, erase_date.month, erase_date.day))
+            shutil.rmtree(s3_module.get_gps_dir_path_erase(erase_date.year, erase_date.month, erase_date.day))
+        except Exception as e:    
+            print(e)
 
         from multiprocessing import Pool
         pool = Pool(processes=2)

@@ -101,7 +101,7 @@ def downloadHbFroms3(epochtime):
     except Exception as e:
         print("The error is: {}".format(e))
     for v_id in vid_df['vehicle_id']:
-        hb_path = get_hb_base_path(from_date.year, from_date.month, from_date.day, v_id)
+        hb_path = get_hb_base_path_sp(from_date.year, from_date.month, from_date.day, v_id)
         os.system("aws s3 --region ap-south-1 cp {} {} --recursive".format(hb_path,hb_storage_path))
     
 def fetch_raw_gps(l2):

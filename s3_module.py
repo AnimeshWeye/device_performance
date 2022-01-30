@@ -42,32 +42,12 @@ def get_hb_base_path(year, month, date):
     s3_path_hb = hb_base_path.format("%04d" % (year), "%02d" % (month), "%02d" % date)
     return s3_path_hb
 
-def get_gps_base_path_sp(year, month, date, vehicleid):
-    s3_path_gps = gps_base_path_sp.format("%04d" % (year), "%02d" % (month), "%02d" % date, "%s" % vehicleid)
-    return s3_path_gps
-
-def get_hb_base_path_sp(year, month, date, vehicleid):
-    s3_path_hb = hb_base_path_sp.format("%04d" % (year), "%02d" % (month), "%02d" % date, "%s" % vehicleid)
-    return s3_path_hb
-
-def get_hb_dir_path_erase():
-    # s3_dir_gps = gps_dir_path.format("%04d" % (year), "%02d" % (month), "%02d" % date)
-    s3_dir_gps = "/data/device_dualsim/hb"
-    return s3_dir_gps
-
-def get_gps_dir_path_erase():
-    # s3_dir_gps = gps_dir_path.format("%04d" % (year), "%02d" % (month), "%02d" % date)
-    s3_dir_gps = "/data/device_dualsim/gps"
-    return s3_dir_gps
-
 def get_gps_dir_path(year, month, date):
     s3_dir_gps = gps_dir_path.format("%04d" % (year), "%02d" % (month), "%02d" % date)
-    # s3_dir_gps = "/data/device_dualsim/gps"
     return s3_dir_gps
 
 def get_hb_dir_path(year, month, date):
     s3_dir_hb = hb_dir_path.format("%04d" % (year), "%02d" % (month), "%02d" % date)
-    # s3_dir_hb = "/data/device_dualsim/hb"
     return s3_dir_hb
 
 def get_gps_data_path(year, month, date, vehicle_id):
@@ -80,33 +60,14 @@ def get_hb_data_path(year, month, date, vehicle_id):
    
 def downloadGpsFroms3(epochtime):
     from_date = getdate(epochtime)
-    gps_storage_path = get_gps_dir_path(from_date.year, from_date.month, from_date.day)
-    # read csv for reading vehicle id to download
-    # try:
-    #     vid_df = pd.read_csv(vid_path)
-    #     print(vid_df)
-    # except Exception as e:
-    #     print("The error is: {}".format(e))
-    # for v_id in vid_df['vehicle_id']:
-    #     gps_path = get_gps_base_path_sp(from_date.year, from_date.month, from_date.day, v_id)
-    #     os.system("aws s3 --region ap-south-1 cp {} {} --recursive".format(gps_path,gps_storage_path))
-    
     gps_path = get_gps_base_path(from_date.year, from_date.month, from_date.day)
+    gps_storage_path = get_gps_dir_path(from_date.year, from_date.month, from_date.day)
     os.system("aws s3 --region ap-south-1 cp {} {} --recursive".format(gps_path,gps_storage_path))
         
 def downloadHbFroms3(epochtime):
     from_date = getdate(epochtime)
-    hb_storage_path = get_hb_dir_path(from_date.year, from_date.month, from_date.day)
-    # read csv for reading vehicle id to download
-    # try:
-    #     vid_df = pd.read_csv(vid_path)
-    # except Exception as e:
-    #     print("The error is: {}".format(e))
-    # for v_id in vid_df['vehicle_id']:
-    #     hb_path = get_hb_base_path_sp(from_date.year, from_date.month, from_date.day, v_id)
-    #     os.system("aws s3 --region ap-south-1 cp {} {} --recursive".format(hb_path,hb_storage_path))
-
     hb_path = get_hb_base_path(from_date.year, from_date.month, from_date.day)
+    hb_storage_path = get_hb_dir_path(from_date.year, from_date.month, from_date.day)
     os.system("aws s3 --region ap-south-1 cp {} {} --recursive".format(hb_path,hb_storage_path))
     
 def fetch_raw_gps(l2):

@@ -19,6 +19,8 @@ hb_dir_path = "/data/device_dualsim/hb/year={}/month={}/date={}/vehicleid={}"
 gps_data_path = "/data/device_dualsim/gps/year={}/month={}/date={}/vehicleid={}"
 hb_data_path = "/data/device_dualsim/hb/year={}/month={}/date={}/vehicleid={}"
 
+vid_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_id.csv"
+
 def get_avro_reader(log_file):
     if hasattr(log_file, 'read'):
         reader = fastavro.reader(log_file)
@@ -78,16 +80,27 @@ def get_hb_data_path(year, month, date, vehicle_id):
    
 def downloadGpsFroms3(epochtime):
     from_date = getdate(epochtime)
-    # read csv for reading vehicle id to download
-    gps_path = get_gps_base_path_sp(from_date.year, from_date.month, from_date.day)
     gps_storage_path = get_gps_dir_path(from_date.year, from_date.month, from_date.day)
-    os.system("aws s3 --region ap-south-1 cp {} {} --recursive".format(gps_path,gps_storage_path))
+    # read csv for reading vehicle id to download
+    try:
+        vid_df = pd.read_csv(vid_path)
+    except Exception as e:
+        print("The error is: {}".format(e))
+    for index, v_id in enumerate(vid_df['vehicle_id']):
+        gps_path = get_gps_base_path_sp(from_date.year, from_date.month, from_date.day, v_id)
+        os.system("aws s3 --region ap-south-1 cp {} {} --recursive".format(gps_path,gps_storage_path))
         
 def downloadHbFroms3(epochtime):
     from_date = getdate(epochtime)
-    hb_path = get_hb_base_path(from_date.year, from_date.month, from_date.day)
     hb_storage_path = get_hb_dir_path(from_date.year, from_date.month, from_date.day)
-    os.system("aws s3 --region ap-south-1 cp {} {} --recursive".format(hb_path,hb_storage_path))
+    # read csv for reading vehicle id to download
+    try:
+        vid_df = pd.read_csv(vid_path)
+    except Exception as e:
+        print("The error is: {}".format(e))
+    for index, v_id in enumerate(vid_df['vehicle_id']):
+        hb_path = get_hb_base_path(from_date.year, from_date.month, from_date.day, v_id)
+        os.system("aws s3 --region ap-south-1 cp {} {} --recursive".format(hb_path,hb_storage_path))
     
 def fetch_raw_gps(l2):
     from_date = getdate(l2[0])

@@ -86,7 +86,7 @@ def downloadGpsFroms3(epochtime):
         vid_df = pd.read_csv(vid_path)
     except Exception as e:
         print("The error is: {}".format(e))
-    for index, v_id in enumerate(vid_df['vehicle_id']):
+    for v_id in vid_df['vehicle_id']:
         gps_path = get_gps_base_path_sp(from_date.year, from_date.month, from_date.day, v_id)
         os.system("aws s3 --region ap-south-1 cp {} {} --recursive".format(gps_path,gps_storage_path))
         
@@ -98,7 +98,7 @@ def downloadHbFroms3(epochtime):
         vid_df = pd.read_csv(vid_path)
     except Exception as e:
         print("The error is: {}".format(e))
-    for index, v_id in enumerate(vid_df['vehicle_id']):
+    for v_id in vid_df['vehicle_id']:
         hb_path = get_hb_base_path(from_date.year, from_date.month, from_date.day, v_id)
         os.system("aws s3 --region ap-south-1 cp {} {} --recursive".format(hb_path,hb_storage_path))
     

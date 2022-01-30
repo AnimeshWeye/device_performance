@@ -225,7 +225,7 @@ def run_etl():
                                     vehicle_number in ({})""".format(vnum_sql)
         print(query)
         inst_veh=pd.read_sql(query , galaxy)
-        vid_df = inst_veh['vehicle_id']
+        # vid_df = inst_veh['vehicle_id']
         # vid_df.to_csv(vid_path)
         delay(5)
 

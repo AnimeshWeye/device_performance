@@ -236,7 +236,7 @@ def run_etl():
         # pool.close()
         # pool.join()
         
-        s3_module.downloadGpsFroms3(start)
+        # s3_module.downloadGpsFroms3(start)
         # s3_module.downloadHbFroms3(start)
 
         vid_sql = ""

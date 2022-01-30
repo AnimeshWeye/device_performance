@@ -50,14 +50,14 @@ def get_hb_base_path_sp(year, month, date, vehicleid):
     s3_path_hb = hb_base_path_sp.format("%04d" % (year), "%02d" % (month), "%02d" % date, "%s" % vehicleid)
     return s3_path_hb
 
-def get_hb_dir_path_erase(year, month, date):
-    s3_dir_gps = gps_dir_path.format("%04d" % (year), "%02d" % (month), "%02d" % date)
-    # s3_dir_gps = "/data/device_dualsim/hb"
+def get_hb_dir_path_erase():
+    # s3_dir_gps = gps_dir_path.format("%04d" % (year), "%02d" % (month), "%02d" % date)
+    s3_dir_gps = "/data/device_dualsim/hb"
     return s3_dir_gps
 
-def get_gps_dir_path_erase(year, month, date):
-    s3_dir_gps = gps_dir_path.format("%04d" % (year), "%02d" % (month), "%02d" % date)
-    # s3_dir_gps = "/data/device_dualsim/gps"
+def get_gps_dir_path_erase():
+    # s3_dir_gps = gps_dir_path.format("%04d" % (year), "%02d" % (month), "%02d" % date)
+    s3_dir_gps = "/data/device_dualsim/gps"
     return s3_dir_gps
 
 def get_gps_dir_path(year, month, date):

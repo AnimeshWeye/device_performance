@@ -81,7 +81,6 @@ def get_hb_data_path(year, month, date, vehicle_id):
 def downloadGpsFroms3(epochtime):
     from_date = getdate(epochtime)
     gps_storage_path = get_gps_dir_path(from_date.year, from_date.month, from_date.day)
-    print(gps_storage_path)
     # read csv for reading vehicle id to download
     # try:
     #     vid_df = pd.read_csv(vid_path)

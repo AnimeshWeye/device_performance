@@ -232,6 +232,7 @@ def run_etl():
         #print(query)
         inst_veh=pd.read_sql(query , galaxy)
         vid_df = inst_veh['vehicle_id']
+        print(inst_veh['vehicle_id'])
         vid_df.to_csv(vid_path)
 
         vid_sql = ""

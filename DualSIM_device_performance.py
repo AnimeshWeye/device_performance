@@ -229,14 +229,14 @@ def run_etl():
         vid_df.to_csv(vid_path)
         # delay(5)
 
-        # from multiprocessing import Pool
-        # pool = Pool(processes=2)
-        # pool.apply_async(s3_module.downloadGpsFroms3, [start])
-        # pool.apply_async(s3_module.downloadHbFroms3, [start])
-        # pool.close()
-        # pool.join()
+        from multiprocessing import Pool
+        pool = Pool(processes=2)
+        pool.apply_async(s3_module.downloadGpsFroms3, [start])
+        pool.apply_async(s3_module.downloadHbFroms3, [start])
+        pool.close()
+        pool.join()
         
-        s3_module.downloadGpsFroms3(start)
+        # s3_module.downloadGpsFroms3(start)
         # s3_module.downloadHbFroms3(start)
 
         vid_sql = ""

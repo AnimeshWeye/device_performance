@@ -84,6 +84,7 @@ def downloadGpsFroms3(epochtime):
     # read csv for reading vehicle id to download
     try:
         vid_df = pd.read_csv(vid_path)
+        print(vid_df)
     except Exception as e:
         print("The error is: {}".format(e))
     for v_id in vid_df['vehicle_id']:

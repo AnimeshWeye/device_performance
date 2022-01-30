@@ -218,23 +218,23 @@ def run_etl():
         except Exception as e:    
             print(e)
 
-        query="""SELECT vehicle_id,date(actual_live_time) as installation_date,model_name
-                                    FROM analytics.vehicle_details 
-                                    WHERE date(actual_live_time) < CURRENT_DATE - INTERVAL'1 day' and 
-                                    vehicle_state='LIVE' and 
-                                    vehicle_number in ({})""".format(vnum_sql)
-        print(query)
-        inst_veh=pd.read_sql(query , galaxy)
-        vid_df = inst_veh['vehicle_id']
-        vid_df.to_csv(vid_path)
-        # delay(5)
-
         from multiprocessing import Pool
         pool = Pool(processes=2)
         pool.apply_async(s3_module.downloadGpsFroms3, [start])
         pool.apply_async(s3_module.downloadHbFroms3, [start])
         pool.close()
         pool.join()
+
+        query="""SELECT vehicle_id,date(actual_live_time) as installation_date,model_name
+                                    FROM analytics.vehicle_details 
+                                    WHERE date(actual_live_time) < CURRENT_DATE - INTERVAL'1 day' and 
+                                    vehicle_state='LIVE' and 
+                                    vehicle_number in ({})""".format(vnum_sql)
+        # print(query)
+        inst_veh=pd.read_sql(query , galaxy)
+        # vid_df = inst_veh['vehicle_id']
+        # vid_df.to_csv(vid_path)
+        # delay(5)
         
         # s3_module.downloadGpsFroms3(start)
         # s3_module.downloadHbFroms3(start)
@@ -244,7 +244,7 @@ def run_etl():
             vid_sql += str(vid)
             if (index < (len(inst_veh['vehicle_id']) - 1)) :
                 vid_sql += ','
-        print(vid_sql)
+        # print(vid_sql)
 
         query="""select vehicleid as vehicle_id,date(timestamp 'epoch' + ((fromtime+19800) * interval '1 second')) as analysis_for_day,
                         count(*) as no_info_instances,round(sum((totime-fromtime)*1.00/3600)/no_info_instances,2) as avg_no_info_hrs

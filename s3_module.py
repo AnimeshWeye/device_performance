@@ -10,6 +10,9 @@ getdatetime=lambda x: pd.datetime.fromtimestamp(x)
 gps_base_path = "s3://weye-archives/device/gps/year={}/month={}/date={}/"
 hb_base_path = "s3://weye-archives/device/hb/year={}/month={}/date={}/"
 
+gps_base_path_sp = "s3://weye-archives/device/gps/year={}/month={}/date={}/vehicleid={}/"
+hb_base_path_sp = "s3://weye-archives/device/hb/year={}/month={}/date={}/vehicleid={}/"
+
 gps_dir_path = "/data/device_dualsim/gps/year={}/month={}/date={}/vehicleid={}"
 hb_dir_path = "/data/device_dualsim/hb/year={}/month={}/date={}/vehicleid={}"
 
@@ -35,6 +38,14 @@ def get_gps_base_path(year, month, date):
 
 def get_hb_base_path(year, month, date):
     s3_path_hb = hb_base_path.format("%04d" % (year), "%02d" % (month), "%02d" % date)
+    return s3_path_hb
+
+def get_gps_base_path_sp(year, month, date, vehicleid):
+    s3_path_gps = gps_base_path_sp.format("%04d" % (year), "%02d" % (month), "%02d" % date, "%s" % vehicleid)
+    return s3_path_gps
+
+def get_hb_base_path_sp(year, month, date, vehicleid):
+    s3_path_hb = hb_base_path_sp.format("%04d" % (year), "%02d" % (month), "%02d" % date, "%s" % vehicleid)
     return s3_path_hb
 
 def get_hb_dir_path_erase():
@@ -67,7 +78,8 @@ def get_hb_data_path(year, month, date, vehicle_id):
    
 def downloadGpsFroms3(epochtime):
     from_date = getdate(epochtime)
-    gps_path = get_gps_base_path(from_date.year, from_date.month, from_date.day)
+    # read csv for reading vehicle id to download
+    gps_path = get_gps_base_path_sp(from_date.year, from_date.month, from_date.day)
     gps_storage_path = get_gps_dir_path(from_date.year, from_date.month, from_date.day)
     os.system("aws s3 --region ap-south-1 cp {} {} --recursive".format(gps_path,gps_storage_path))
         

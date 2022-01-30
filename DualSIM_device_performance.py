@@ -223,7 +223,7 @@ def run_etl():
                                     WHERE date(actual_live_time) < CURRENT_DATE - INTERVAL'1 day' and 
                                     vehicle_state='LIVE' and 
                                     vehicle_number in ({})""".format(vnum_sql)
-        #print(query)
+        print(query)
         inst_veh=pd.read_sql(query , galaxy)
         vid_df = inst_veh['vehicle_id']
         vid_df.to_csv(vid_path)

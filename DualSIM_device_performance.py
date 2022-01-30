@@ -225,8 +225,8 @@ def run_etl():
                                     vehicle_number in ({})""".format(vnum_sql)
         print(query)
         inst_veh=pd.read_sql(query , galaxy)
-        # vid_df = inst_veh['vehicle_id']
-        # vid_df.to_csv(vid_path)
+        vid_df = inst_veh['vehicle_id']
+        vid_df.to_csv(vid_path)
         # delay(5)
 
         # from multiprocessing import Pool
@@ -236,8 +236,8 @@ def run_etl():
         # pool.close()
         # pool.join()
         
-        # s3_module.downloadGpsFroms3(start)
-        # s3_module.downloadHbFroms3(start)
+        s3_module.downloadGpsFroms3(start)
+        s3_module.downloadHbFroms3(start)
 
         vid_sql = ""
         for index, vid in enumerate(inst_veh['vehicle_id']):

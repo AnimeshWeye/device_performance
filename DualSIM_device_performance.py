@@ -227,7 +227,7 @@ def run_etl():
         inst_veh=pd.read_sql(query , galaxy)
         # vid_df = inst_veh['vehicle_id']
         # vid_df.to_csv(vid_path)
-        delay(5)
+        # delay(5)
 
         # from multiprocessing import Pool
         # pool = Pool(processes=2)

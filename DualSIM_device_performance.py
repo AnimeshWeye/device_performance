@@ -213,11 +213,11 @@ def run_etl():
         # print(start, getDay(start))
 
         # erase_date=getDay(start-(86400*2))
-        try:
-            shutil.rmtree(s3_module.get_hb_dir_path_erase())
-            shutil.rmtree(s3_module.get_gps_dir_path_erase())
-        except Exception as e:    
-            print(e)
+        # try:
+        #     shutil.rmtree(s3_module.get_hb_dir_path_erase())
+        #     shutil.rmtree(s3_module.get_gps_dir_path_erase())
+        # except Exception as e:    
+        #     print(e)
 
         from multiprocessing import Pool
         pool = Pool(processes=2)

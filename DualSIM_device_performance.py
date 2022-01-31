@@ -185,7 +185,7 @@ def run_etl():
         # yyyy-mm-dd
         # analysis_date = input("Enter Day for Analysis (YYYY-MM-DD): ")
         # print("Analysis Day: " + analysis_date)
-        analysis_date = "2022-01-13"
+        analysis_date = "2022-01-06"
         try :
             today=dt.date()
         except:
@@ -233,6 +233,7 @@ def run_etl():
                                     vehicle_number in ({})""".format(vnum_sql)
         # print(query)
         inst_veh=pd.read_sql(query , galaxy)
+        print(inst_veh)
         # vid_df = inst_veh['vehicle_id']
         # vid_df.to_csv(vid_path)
         # delay(5)

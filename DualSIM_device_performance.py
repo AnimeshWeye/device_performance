@@ -208,12 +208,12 @@ def run_etl():
         except Exception as e:
             print("The error is: {}".format(e))
         
-        start=gettime(analysis_date) + (18.5*60*60)
-        end=gettime(analysis_date) + (42.5*60*60)
+        start=gettime(analysis_date) - (5.5*60*60)
+        end=gettime(analysis_date) + (18.5*60*60)
         # print(start, getDay(start))
 
         # erase_date=getDay(start-(86400*2))
-        
+
         try:
             shutil.rmtree(s3_module.get_hb_dir_path_erase(), ignore_errors = True)
             shutil.rmtree(s3_module.get_gps_dir_path_erase(), ignore_errors = True)

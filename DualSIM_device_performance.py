@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from turtle import delay
+from turtle import delay, distance
 import pandas as pd
 import sqlalchemy
 import shutil
@@ -213,11 +213,11 @@ def run_etl():
         # print(start, getDay(start))
 
         # erase_date=getDay(start-(86400*2))
-        try:
-            shutil.rmtree(s3_module.get_hb_dir_path_erase(), ignore_errors = True)
-            shutil.rmtree(s3_module.get_gps_dir_path_erase(), ignore_errors = True)
-        except Exception as e:    
-            print(e)
+        # try:
+        #     shutil.rmtree(s3_module.get_hb_dir_path_erase(), ignore_errors = True)
+        #     shutil.rmtree(s3_module.get_gps_dir_path_erase(), ignore_errors = True)
+        # except Exception as e:    
+        #     print(e)
 
         # from multiprocessing import Pool
         # pool = Pool(processes=2)
@@ -233,6 +233,7 @@ def run_etl():
                                     vehicle_number in ({})""".format(vnum_sql)
         # print(query)
         inst_veh=pd.read_sql(query , galaxy)
+        print("query1: ")
         print(inst_veh)
         # vid_df = inst_veh['vehicle_id']
         # vid_df.to_csv(vid_path)
@@ -243,8 +244,8 @@ def run_etl():
 
         vid_sql = ""
         for index, vid in enumerate(inst_veh['vehicle_id']):
-            s3_module.downloadHbFroms3_sp(start, str(vid))
-            s3_module.downloadGpsFroms3_sp(start, str(vid))
+            # s3_module.downloadHbFroms3_sp(start, str(vid))
+            # s3_module.downloadGpsFroms3_sp(start, str(vid))
             vid_sql += str(vid)
             if (index < (len(inst_veh['vehicle_id']) - 1)) :
                 vid_sql += ','
@@ -258,13 +259,16 @@ def run_etl():
                  group by 1,2""".format(str(analysis_date),vid_sql)
         #print(query)
         no_info_data=pd.read_sql(query , galaxy)
-        # print(no_info_data)
+        print("query2:")
+        print(no_info_data)
 
         query="""select vehicleid as vehicle_id,date(timestamp 'epoch' + ((time+19800) * interval '1 second')) as analysis_for_day,
                         round(distance/1000,2) as total_km,round(noinfodistance/1000,2) as no_info_km
                  from analytics.vehicledaydata
                  where analysis_for_day='{}' """.format(str(analysis_date))
         distance_data=pd.read_sql(query , galaxy)
+        print("query3:")
+        print(distance_data)
 
         inst_veh['installation_date']=pd.to_datetime(inst_veh['installation_date'])
 
@@ -273,6 +277,7 @@ def run_etl():
 
         analysis_of=list(installed15['vehicle_id'].unique())
         vehicle_list=[[int(start),int(end),int(x)] for x in analysis_of]
+        print(vehicle_list)
 
         final=[]
         for j in tqdm(range(0,len(vehicle_list),1000)):

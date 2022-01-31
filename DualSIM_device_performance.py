@@ -208,16 +208,17 @@ def run_etl():
         except Exception as e:
             print("The error is: {}".format(e))
         
-        start=gettime(analysis_date)
-        end=gettime(analysis_date) + (24*60*60)
+        start=gettime(analysis_date) + (18.5*60*60)
+        end=gettime(analysis_date) + (42.5*60*60)
         # print(start, getDay(start))
 
         # erase_date=getDay(start-(86400*2))
-        # try:
-        #     shutil.rmtree(s3_module.get_hb_dir_path_erase(), ignore_errors = True)
-        #     shutil.rmtree(s3_module.get_gps_dir_path_erase(), ignore_errors = True)
-        # except Exception as e:    
-        #     print(e)
+        
+        try:
+            shutil.rmtree(s3_module.get_hb_dir_path_erase(), ignore_errors = True)
+            shutil.rmtree(s3_module.get_gps_dir_path_erase(), ignore_errors = True)
+        except Exception as e:    
+            print(e)
 
         # from multiprocessing import Pool
         # pool = Pool(processes=2)
@@ -244,8 +245,8 @@ def run_etl():
 
         vid_sql = ""
         for index, vid in enumerate(inst_veh['vehicle_id']):
-            # s3_module.downloadHbFroms3_sp(start, str(vid))
-            # s3_module.downloadGpsFroms3_sp(start, str(vid))
+            s3_module.downloadHbFroms3_sp(start, str(vid))
+            s3_module.downloadGpsFroms3_sp(start, str(vid))
             vid_sql += str(vid)
             if (index < (len(inst_veh['vehicle_id']) - 1)) :
                 vid_sql += ','
@@ -277,7 +278,7 @@ def run_etl():
         installed15.sort_values(by='installation_date',ascending=True,inplace=True)
 
         analysis_of=list(installed15['vehicle_id'].unique())
-        vehicle_list=[[int(start),int(end),int(x)] for x in analysis_of]
+        vehicle_list=[[int(start - (24*60*60)),int(end - (24*60*60)),int(x)] for x in analysis_of]
         print(vehicle_list)
 
         final=[]

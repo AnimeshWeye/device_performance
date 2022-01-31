@@ -256,7 +256,7 @@ def run_etl():
                  from trucking.trucking_mongo_devicehistory
                  where analysis_for_day='{}' and
                  vehicle_id in ({})  
-                 group by 1,2""".format(str(analysis_date),vid_sql)
+                 group by 1,2""".format(str(analysis_date), vid_sql)
         #print(query)
         no_info_data=pd.read_sql(query , galaxy)
         print("query2:")
@@ -265,7 +265,8 @@ def run_etl():
         query="""select vehicleid as vehicle_id,date(timestamp 'epoch' + ((time+19800) * interval '1 second')) as analysis_for_day,
                         round(distance/1000,2) as total_km,round(noinfodistance/1000,2) as no_info_km
                  from analytics.vehicledaydata
-                 where analysis_for_day='{}' """.format(str(analysis_date))
+                 where analysis_for_day='{}' and
+                 vehicle_id in ({}) """.format(str(analysis_date), vid_sql)
         distance_data=pd.read_sql(query , galaxy)
         print("query3:")
         print(distance_data)

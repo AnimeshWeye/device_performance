@@ -109,6 +109,12 @@ def downloadHbFroms3(epochtime):
     hb_path = get_hb_base_path(from_date.year, from_date.month, from_date.day)
     os.system("aws s3 --region ap-south-1 cp {} {} --recursive".format(hb_path,hb_storage_path))
     
+def downloadHbFroms3_sp(epochtime, vid):
+    from_date = getdate(epochtime)
+    hb_storage_path = get_hb_dir_path(from_date.year, from_date.month, from_date.day)
+    hb_path = get_hb_base_path_sp(from_date.year, from_date.month, from_date.day, vid)
+    os.system("aws s3 --region ap-south-1 cp {} {} --recursive".format(hb_path,hb_storage_path))
+
 def fetch_raw_gps(l2):
     from_date = getdate(l2[0])
     to_date = getdate(l2[1])

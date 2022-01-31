@@ -214,8 +214,8 @@ def run_etl():
 
         # erase_date=getDay(start-(86400*2))
         try:
-            shutil.rmtree(s3_module.get_hb_dir_path_erase())
-            # shutil.rmtree(s3_module.get_gps_dir_path_erase())
+            shutil.rmtree(s3_module.get_hb_dir_path_erase(), ignore_errors = True)
+            # shutil.rmtree(s3_module.get_gps_dir_path_erase(), ignore_errors = True)
         except Exception as e:    
             print(e)
 
@@ -238,10 +238,11 @@ def run_etl():
         # delay(5)
         
         # s3_module.downloadGpsFroms3(start)
-        # s3_module.downloadHbFroms3(start)
+        # s3_module.downloadHbFroms3_sp(start, vid)
 
         vid_sql = ""
         for index, vid in enumerate(inst_veh['vehicle_id']):
+            s3_module.downloadHbFroms3_sp(start, str(vid))
             vid_sql += str(vid)
             if (index < (len(inst_veh['vehicle_id']) - 1)) :
                 vid_sql += ','

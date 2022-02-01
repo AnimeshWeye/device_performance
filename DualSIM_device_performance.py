@@ -297,7 +297,6 @@ def run_etl():
         # previous_data=pd.read_sql("select * from analytics.master_device_performance limit 1",galaxy)
         # result=result[previous_data.columns]
         # print("Done2")
-      
         # data=result
         # table_name='master_device_performance'
         # update_type='append_concat'

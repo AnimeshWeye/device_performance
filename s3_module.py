@@ -50,14 +50,14 @@ def get_hb_base_path_sp(year, month, date, vehicleid):
     s3_path_hb = hb_base_path_sp.format("%04d" % (year), "%02d" % (month), "%02d" % date, "%s" % vehicleid)
     return s3_path_hb
 
-def get_hb_dir_path_erase():
-    # s3_dir_gps = gps_dir_path.format("%04d" % (year), "%02d" % (month), "%02d" % date)
-    s3_dir_gps = "/data/device_dualsim/hb"
+def get_hb_dir_path_erase(year, month, date):
+    s3_dir_gps = gps_dir_path.format("%04d" % (year), "%02d" % (month), "%02d" % date)
+    # s3_dir_gps = "/data/device_dualsim/hb"
     return s3_dir_gps
 
-def get_gps_dir_path_erase():
-    # s3_dir_gps = gps_dir_path.format("%04d" % (year), "%02d" % (month), "%02d" % date)
-    s3_dir_gps = "/data/device_dualsim/gps"
+def get_gps_dir_path_erase(year, month, date):
+    s3_dir_gps = gps_dir_path.format("%04d" % (year), "%02d" % (month), "%02d" % date)
+    # s3_dir_gps = "/data/device_dualsim/gps"
     return s3_dir_gps
 
 def get_gps_dir_path(year, month, date):
@@ -146,8 +146,10 @@ def fetch_raw_gps(l2):
                 try:
                     data = get_avro_reader(file_name)
                     flag = True
+                    print("file found")
                 except Exception as e:
                     a = 1
+                    print("no file found")
                 if flag:
                     try:
                         for record in data:
@@ -159,6 +161,7 @@ def fetch_raw_gps(l2):
                         data_len.append(e)
                 else:
                     data_len.append("error in get_avro_reader function")
+
     if len(final_df) > 0:
         final_df.rename(columns={'createdat': 'created'}, inplace=True)
         final_df['created'] = final_df.apply(

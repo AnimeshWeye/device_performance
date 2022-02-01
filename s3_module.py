@@ -131,13 +131,11 @@ def fetch_raw_gps(l2):
     for i in range(0, nod + 1):
         for_date = from_date + datetime.timedelta(days=i)
         s3_gps_data_path.append(get_gps_data_path(for_date.year, for_date.month, for_date.day, l2[2]))
-        print(s3_gps_data_path)
     final_df = pd.DataFrame()  # concat data from all files to one df
     data_len = []  # number of data_points/pings
     count = 0
     data_df = pd.DataFrame()  # need to remove just for testing
     for d in s3_gps_data_path:
-        print(d)
         for path, subdirs, files in os.walk(d):
             for name in files:
                 flag = False

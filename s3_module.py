@@ -143,7 +143,7 @@ def fetch_raw_gps(l2):
     
     data_df = pd.DataFrame()  # need to remove just for testing
     data = get_avro_reader(s3_gps_data_path[0])
-    path, subdirs, files = os.walk(s3_gps_data_path)
+    path, subdirs, files = os.walk(s3_gps_data_path[0])
     file_name = os.path.join(path, files)
     data = get_avro_reader(file_name)
     flag = True

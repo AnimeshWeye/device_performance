@@ -138,8 +138,6 @@ def fetch_raw_gps(l2):
     data_df = pd.DataFrame()  # need to remove just for testing
     for d in s3_gps_data_path:
         for path, subdirs, files in os.walk(d):
-            print("path: " + path)
-            print("files: " + files)
             for name in files:
                 flag = False
                 final_data = []
@@ -164,6 +162,8 @@ def fetch_raw_gps(l2):
                         data_len.append(e)
                 else:
                     data_len.append("error in get_avro_reader function")
+    print(len(final_df))
+    print(final_df)
 
     if len(final_df) > 0:
         final_df.rename(columns={'createdat': 'created'}, inplace=True)

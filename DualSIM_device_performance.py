@@ -188,7 +188,7 @@ def run_etl():
         # analysis_date = input("Enter Day for Analysis (YYYY-MM-DD): ")
         # print("Analysis Day: " + analysis_date)
         # analysis_date = "2022-01-06"
-        analysis_date = dt.datetime(2022, 1, 6)
+        analysis_date = dt.datetime(2022, 1, 7)
         try :
             today=dt.date()
         except:

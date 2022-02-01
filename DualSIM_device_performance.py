@@ -62,7 +62,6 @@ def ping_analysis(l):
     vid=l[2]
     try:
         lc=s3_module.fetch_raw_gps(l)
-        print("length of raw gps data: " + str(len(lc)))
         hb=s3_module.fetch_hb(l)
         if (len(hb)==0)&(len(lc)>0):
             lc['created']=lc['created']/1000
@@ -186,8 +185,6 @@ def run_etl():
         # Day for analysys
         # yyyy-mm-dd
         # analysis_date = input("Enter Day for Analysis (YYYY-MM-DD): ")
-        # print("Analysis Day: " + analysis_date)
-        # analysis_date = "2022-01-06"
         analysis_date = dt.datetime(2022, 1, 9)
         try :
             today=dt.date()
@@ -206,79 +203,62 @@ def run_etl():
                 vnum_sql += "'" + str(vnum) + "'"
                 if (index < (len(vehicle_num['vehicle_number']) - 1)):
                     vnum_sql += ','
-
-            #print(vnum_sql)
         except Exception as e:
             print("The error is: {}".format(e))
-        
-        # start=gettime(analysis_date) - (5.5*60*60)
-        # end=gettime(analysis_date) + (18.5*60*60)
 
+        # time adjustment for start and end time of analysis
         start=gettime(analysis_date) - (29.5*60*60)
         end=gettime(analysis_date) - (5.5*60*60)
-        print("start: " + str(getDay(start)))
-        print("end: " + str(getDay(end)))
-        # print(start, getDay(start))
 
+        # erase datetime for erasing previous day redundant data
         erase_date=getDay(start-(86400*2))
 
         try:
-            shutil.rmtree(s3_module.get_hb_dir_path_erase(erase_date.year, erase_date.month, erase_date.day), ignore_errors = True)
-            shutil.rmtree(s3_module.get_gps_dir_path_erase(erase_date.year, erase_date.month, erase_date.day), ignore_errors = True)
+            shutil.rmtree(s3_module.get_hb_dir_path_erase_sp())
+            shutil.rmtree(s3_module.get_gps_dir_path_erase_sp())
         except Exception as e:    
             print(e)
-
-        # from multiprocessing import Pool
-        # pool = Pool(processes=2)
-        # pool.apply_async(s3_module.downloadGpsFroms3, [start])
-        # pool.apply_async(s3_module.downloadHbFroms3, [start])
-        # pool.close()
-        # pool.join()
-
+        
+        # Query 1: query for extracting vehicle id for corresponding vehicle numbers stored in csv
         query="""SELECT vehicle_id,date(actual_live_time) as installation_date,model_name
                                     FROM analytics.vehicle_details 
                                     WHERE date(actual_live_time) < CURRENT_DATE - INTERVAL'1 day' and 
                                     vehicle_state='LIVE' and 
                                     vehicle_number in ({})""".format(vnum_sql)
-        # print(query)
         inst_veh=pd.read_sql(query , galaxy)
-        print("query1: ")
-        print(inst_veh)
-        # vid_df = inst_veh['vehicle_id']
-        # vid_df.to_csv(vid_path)
-        # delay(5)
-        
-        # s3_module.downloadGpsFroms3(start)
-        # s3_module.downloadHbFroms3_sp(start, vid)
 
+        # Downloading data and making part of new sql query 
         vid_sql = ""
         for index, vid in enumerate(inst_veh['vehicle_id']):
             s3_module.downloadHbFroms3_sp(start, str(vid))
             s3_module.downloadGpsFroms3_sp(start, str(vid))
+            s3_module.downloadHbFroms3_sp((start - (24*60*60)), str(vid))
+            s3_module.downloadGpsFroms3_sp((start - (24*60*60)), str(vid))
             vid_sql += str(vid)
             if (index < (len(inst_veh['vehicle_id']) - 1)) :
                 vid_sql += ','
         print(vid_sql)
 
+        # Query2: query to extract no-info data according to vid extracted earlier
         query="""select vehicleid as vehicle_id,date(timestamp 'epoch' + ((fromtime+19800) * interval '1 second')) as analysis_for_day,
                         count(*) as no_info_instances,round(sum((totime-fromtime)*1.00/3600)/no_info_instances,2) as avg_no_info_hrs
                  from trucking.trucking_mongo_devicehistory
                  where analysis_for_day='{}' and
                  vehicle_id in ({})  
                  group by 1,2""".format(str(analysis_date-dt.timedelta(days=2)), vid_sql)
-        #print(query)
         no_info_data=pd.read_sql(query , galaxy)
-        print("query2:")
-        print(no_info_data)
+        # print("query2:")
+        # print(no_info_data)
 
+        # Query3: query for extracting distance data for online and no-info time
         query="""select vehicleid as vehicle_id,date(timestamp 'epoch' + ((time+19800) * interval '1 second')) as analysis_for_day,
                         round(distance/1000,2) as total_km,round(noinfodistance/1000,2) as no_info_km
                  from analytics.vehicledaydata
                  where analysis_for_day='{}' and
                  vehicle_id in ({}) """.format(str(analysis_date-dt.timedelta(days=2)), vid_sql)
         distance_data=pd.read_sql(query , galaxy)
-        print("query3:")
-        print(distance_data)
+        # print("query3:")
+        # print(distance_data)
 
         inst_veh['installation_date']=pd.to_datetime(inst_veh['installation_date'])
 

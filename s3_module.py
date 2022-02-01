@@ -143,6 +143,7 @@ def fetch_raw_gps(l2):
                 final_data = []
                 count += 1
                 file_name = os.path.join(path, name)
+                print(file_name)
                 try:
                     data = get_avro_reader(file_name)
                     flag = True

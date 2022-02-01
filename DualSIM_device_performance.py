@@ -211,8 +211,13 @@ def run_etl():
         except Exception as e:
             print("The error is: {}".format(e))
         
-        start=gettime(analysis_date) - (5.5*60*60)
-        end=gettime(analysis_date) + (18.5*60*60)
+        # start=gettime(analysis_date) - (5.5*60*60)
+        # end=gettime(analysis_date) + (18.5*60*60)
+
+        start=gettime(analysis_date) - (29.5*60*60)
+        end=gettime(analysis_date) - (5.5*60*60)
+        print("start: " + str(getDay(start)))
+        print("end: " + str(getDay(end)))
         # print(start, getDay(start))
 
         # erase_date=getDay(start-(86400*2))
@@ -260,7 +265,7 @@ def run_etl():
                  from trucking.trucking_mongo_devicehistory
                  where analysis_for_day='{}' and
                  vehicle_id in ({})  
-                 group by 1,2""".format(str(analysis_date-dt.timedelta(days=1)), vid_sql)
+                 group by 1,2""".format(str(analysis_date-dt.timedelta(days=2)), vid_sql)
         #print(query)
         no_info_data=pd.read_sql(query , galaxy)
         print("query2:")
@@ -270,7 +275,7 @@ def run_etl():
                         round(distance/1000,2) as total_km,round(noinfodistance/1000,2) as no_info_km
                  from analytics.vehicledaydata
                  where analysis_for_day='{}' and
-                 vehicle_id in ({}) """.format(str(analysis_date-dt.timedelta(days=1)), vid_sql)
+                 vehicle_id in ({}) """.format(str(analysis_date-dt.timedelta(days=2)), vid_sql)
         distance_data=pd.read_sql(query , galaxy)
         print("query3:")
         print(distance_data)

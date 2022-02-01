@@ -134,13 +134,13 @@ def fetch_raw_gps(l2):
         s3_gps_data_path.append(get_gps_data_path(for_date.year, for_date.month, for_date.day, l2[2]))
         print(s3_gps_data_path)
     final_df = pd.DataFrame()  # concat data from all files to one df
-    data_len = []  # number of data_points/pings
-    count = 0
-    data_df = pd.DataFrame()  # need to remove just for testing
-    data = get_avro_reader(s3_gps_data_path)
+    # data_len = []  # number of data_points/pings
+    # count = 0
+    # data_df = pd.DataFrame()  # need to remove just for testing
+    # data = get_avro_reader(s3_gps_data_path)
     path, subdirs, files = os.walk(s3_gps_data_path)
     print(path, subdirs, files)
-    print(data)
+    # print(data)
     # for d in s3_gps_data_path:
     #     print(d)
     #     for path, subdirs, files in os.walk(d):

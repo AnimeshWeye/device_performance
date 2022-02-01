@@ -138,8 +138,8 @@ def fetch_raw_gps(l2):
     data_df = pd.DataFrame()  # need to remove just for testing
     for d in s3_gps_data_path:
         for path, subdirs, files in os.walk(d):
-            print(path)
-            print(files)
+            print("path: " + path)
+            print("files: " + files)
             for name in files:
                 flag = False
                 final_data = []

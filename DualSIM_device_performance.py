@@ -294,7 +294,7 @@ def run_etl():
             # import multiprocessing
             # pool = multiprocessing.Pool(10)
             # results1=pool.map(ping_analysis,vehicle_list[j:(j+1000)])
-            results1 = ping_analysis(vehicle_list[j])
+            results1 = ping_analysis(vehicle_list[j:(j+1000)])
             # pool.close()
             # pool.join()
             final += results1

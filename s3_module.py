@@ -112,82 +112,54 @@ def downloadHbFroms3(epochtime):
 def downloadHbFroms3_sp(epochtime, vid):
     from_date = getdate(epochtime)
     hb_storage_path = get_hb_dir_path(from_date.year, from_date.month, from_date.day)
+    hb_storage_path = hb_storage_path + "/vehicleid={}/".format(vid)
     hb_path = get_hb_base_path_sp(from_date.year, from_date.month, from_date.day, vid)
     os.system("aws s3 --region ap-south-1 cp {} {} --recursive".format(hb_path, hb_storage_path))
     
 def downloadGpsFroms3_sp(epochtime, vid):
     from_date = getdate(epochtime)
     gps_storage_path = get_gps_dir_path(from_date.year, from_date.month, from_date.day)
+    gps_storage_path = gps_storage_path + "/vehicleid={}/".format(vid)
     gps_path = get_gps_base_path_sp(from_date.year, from_date.month, from_date.day, vid)
     os.system("aws s3 --region ap-south-1 cp {} {} --recursive".format(gps_path, gps_storage_path))
 
 def fetch_raw_gps(l2):
-    # l2 = [1641493800, 1641580200, 1678413]
     from_date = getdate(l2[0])
     to_date = getdate(l2[1])
     nod = int((to_date - from_date).days) #no_of_days
-    print("number of days: " + str(nod))
     s3_gps_data_path = []
     for i in range(0, nod + 1):
         for_date = from_date + datetime.timedelta(days=i)
-        print(for_date.year, for_date.month, for_date.day)
         s3_gps_data_path.append(get_gps_data_path(for_date.year, for_date.month, for_date.day, l2[2]))
         print(s3_gps_data_path)
     final_df = pd.DataFrame()  # concat data from all files to one df
     data_len = []  # number of data_points/pings
     count = 0
-
-    flag = False
-    final_data = []
-    count += 1
-    
     data_df = pd.DataFrame()  # need to remove just for testing
-    data = get_avro_reader(s3_gps_data_path[0])
-    path, subdirs, files = os.walk(s3_gps_data_path[0])
-    file_name = os.path.join(path, files)
-    data = get_avro_reader(file_name)
-    flag = True
-    if flag:
-        try:
-            for record in data:
-                final_data.append(record)
-            data_df = pd.DataFrame(final_data)
-            data_len.append(len(data_df))
-            final_df = pd.concat([final_df, data_df])
-        except Exception as e:
-            data_len.append(e)
-    else:
-        data_len.append("error in get_avro_reader function")
-    # print(path, subdirs, files)
-    # print(data)
-    # for d in s3_gps_data_path:
-    #     print(d)
-    #     for path, subdirs, files in os.walk(d):
-    #         for name in files:
-    #             flag = False
-    #             final_data = []
-    #             count += 1
-    #             file_name = os.path.join(path, name)
-    #             try:
-    #                 data = get_avro_reader(file_name)
-    #                 flag = True
-    #             except Exception as e:
-    #                 a = 1
-    #             if flag:
-    #                 try:
-    #                     for record in data:
-    #                         final_data.append(record)
-    #                     data_df = pd.DataFrame(final_data)
-    #                     data_len.append(len(data_df))
-    #                     final_df = pd.concat([final_df, data_df])
-    #                 except Exception as e:
-    #                     data_len.append(e)
-    #             else:
-    #                 data_len.append("error in get_avro_reader function")
-    
-    # print(len(final_df))
-    # print(final_df)
-
+    for d in s3_gps_data_path:
+        print(d)
+        for path, subdirs, files in os.walk(d):
+            for name in files:
+                flag = False
+                final_data = []
+                count += 1
+                file_name = os.path.join(path, name)
+                try:
+                    data = get_avro_reader(file_name)
+                    flag = True
+                except Exception as e:
+                    a = 1
+                if flag:
+                    try:
+                        for record in data:
+                            final_data.append(record)
+                        data_df = pd.DataFrame(final_data)
+                        data_len.append(len(data_df))
+                        final_df = pd.concat([final_df, data_df])
+                    except Exception as e:
+                        data_len.append(e)
+                else:
+                    data_len.append("error in get_avro_reader function")
     if len(final_df) > 0:
         final_df.rename(columns={'createdat': 'created'}, inplace=True)
         final_df['created'] = final_df.apply(

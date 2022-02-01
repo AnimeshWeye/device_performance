@@ -279,7 +279,7 @@ def run_etl():
             pool.join()
             final += results1
         data1=pd.DataFrame(final,columns=['vehicle_id','consistency_pct','live_pct','gsm_average','heart_beat','analysis_for_day'])
-        result3=pd.merge(data1 , installed15[['vehicle_id','model_name','installation_date']],how='left',on='vehicle_id')
+        result3=pd.merge(data1 , installed15[['vehicle_number','vehicle_id','model_name','installation_date']],how='left',on='vehicle_id')
         result2=pd.merge(result3 , no_info_data, how='left',on=['vehicle_id','analysis_for_day'])
         result=pd.merge(result2 , distance_data, how='left',on=['vehicle_id','analysis_for_day'])
         result.fillna(0,inplace=True)
@@ -289,6 +289,7 @@ def run_etl():
         result['online']=result['consistency_pct'].apply(lambda x : False if x==0 else True)
         #result.to_pickle('/home/ubuntu/vibhor/IoT/master_device_performance/check.pkl')
         print(data1)
+        print(result3)
         print("Done1")
         
         # previous_data=pd.read_sql("select * from analytics.master_device_performance limit 1",galaxy)

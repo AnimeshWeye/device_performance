@@ -291,12 +291,12 @@ def run_etl():
 
         final=[]
         for j in tqdm(range(0, len(vehicle_list), 1000)):
-            # import multiprocessing
-            # pool = multiprocessing.Pool(10)
-            # results1=pool.map(ping_analysis,vehicle_list[j:(j+1000)])
-            results1 = ping_analysis(vehicle_list[j:(j+1000)])
-            # pool.close()
-            # pool.join()
+            import multiprocessing
+            pool = multiprocessing.Pool(2)
+            results1=pool.map(ping_analysis,vehicle_list[j:(j+1000)])
+            # results1 = ping_analysis(vehicle_list[j:(j+1000)])
+            pool.close()
+            pool.join()
             final += results1
         data1=pd.DataFrame(final,columns=['vehicle_id','consistency_pct','live_pct','gsm_average','heart_beat','analysis_for_day'])
         result3=pd.merge(data1 , installed15[['vehicle_id','model_name','installation_date']],how='left',on='vehicle_id')

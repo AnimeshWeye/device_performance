@@ -186,7 +186,10 @@ def run_etl():
         # Day for analysys
         # yyyy-mm-dd
         # analysis_date = input("Enter Day for Analysis (YYYY-MM-DD): ")
-        analysis_date = dt.datetime(2022, 1, 9)
+        yr = input("Enter year: ")
+        mnth = input("Enter month: ")
+        dy = input("Enter day: ")
+        analysis_date = dt.datetime(int(yr), int(mnth), int(dy))
         try :
             today=dt.date()
         except:

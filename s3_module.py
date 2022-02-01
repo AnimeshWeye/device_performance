@@ -125,7 +125,7 @@ def fetch_raw_gps(l2):
     from_date = getdate(l2[0])
     to_date = getdate(l2[1])
     nod = int((to_date - from_date).days) #no_of_days
-    print(nod)
+    print("number of days: " + str(nod))
     s3_gps_data_path = []
     for i in range(0, nod + 1):
         for_date = from_date + datetime.timedelta(days=i)

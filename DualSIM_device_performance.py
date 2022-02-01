@@ -220,7 +220,7 @@ def run_etl():
             print(e)
         
         # Query 1: query for extracting vehicle id for corresponding vehicle numbers stored in csv
-        query="""SELECT vehicle_id,date(actual_live_time) as installation_date,model_name
+        query="""SELECT vehicle_number, vehicle_id,date(actual_live_time) as installation_date,model_name
                                     FROM analytics.vehicle_details 
                                     WHERE date(actual_live_time) < CURRENT_DATE - INTERVAL'1 day' and 
                                     vehicle_state='LIVE' and 
@@ -267,7 +267,6 @@ def run_etl():
 
         analysis_of=list(installed15['vehicle_id'].unique())
         vehicle_list=[[int(start - (24*60*60)),int(end - (24*60*60)),int(x)] for x in analysis_of]
-        print(vehicle_list)
 
         final=[]
         for j in tqdm(range(0, len(vehicle_list), 1000)):

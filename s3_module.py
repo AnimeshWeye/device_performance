@@ -137,34 +137,35 @@ def fetch_raw_gps(l2):
     data_len = []  # number of data_points/pings
     count = 0
     data_df = pd.DataFrame()  # need to remove just for testing
-     
-    for d in s3_gps_data_path:
-        print(d)
-        for path, subdirs, files in os.walk(d):
-            for name in files:
-                flag = False
-                final_data = []
-                count += 1
-                file_name = os.path.join(path, name)
-                try:
-                    data = get_avro_reader(file_name)
-                    flag = True
-                except Exception as e:
-                    a = 1
-                if flag:
-                    try:
-                        for record in data:
-                            final_data.append(record)
-                        data_df = pd.DataFrame(final_data)
-                        data_len.append(len(data_df))
-                        final_df = pd.concat([final_df, data_df])
-                    except Exception as e:
-                        data_len.append(e)
-                else:
-                    data_len.append("error in get_avro_reader function")
+    data = get_avro_reader(s3_gps_data_path)
+    print(data)
+    # for d in s3_gps_data_path:
+    #     print(d)
+    #     for path, subdirs, files in os.walk(d):
+    #         for name in files:
+    #             flag = False
+    #             final_data = []
+    #             count += 1
+    #             file_name = os.path.join(path, name)
+    #             try:
+    #                 data = get_avro_reader(file_name)
+    #                 flag = True
+    #             except Exception as e:
+    #                 a = 1
+    #             if flag:
+    #                 try:
+    #                     for record in data:
+    #                         final_data.append(record)
+    #                     data_df = pd.DataFrame(final_data)
+    #                     data_len.append(len(data_df))
+    #                     final_df = pd.concat([final_df, data_df])
+    #                 except Exception as e:
+    #                     data_len.append(e)
+    #             else:
+    #                 data_len.append("error in get_avro_reader function")
     
-    print(len(final_df))
-    print(final_df)
+    # print(len(final_df))
+    # print(final_df)
 
     if len(final_df) > 0:
         final_df.rename(columns={'createdat': 'created'}, inplace=True)

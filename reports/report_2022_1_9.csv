@@ -1,0 +1,6 @@
+,vehicle_id,consistency_pct,live_pct,gsm_average,heart_beat,analysis_for_day,vehicle_number,model_name,installation_date
+0,1678510,99.65,90.9,57.04,No heartbeat,2022-01-07,HR038AC4399,WEYE01,2021-11-18
+1,1678279,72.08,58.96,70.91,No heartbeat,2022-01-07,HR038AC8427,WEYE01,2021-11-18
+2,1677917,99.93,90.21,56.76,No heartbeat,2022-01-07,HR055AD2198,WEYE01,2021-11-18
+3,1678413,67.71,56.81,79.36,No heartbeat,2022-01-07,NL001AA6688,WEYE01,2021-11-18
+4,1678163,96.88,85.14,68.42,No heartbeat,2022-01-07,NL001AA4912,WEYE01,2021-11-18

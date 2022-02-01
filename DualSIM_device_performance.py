@@ -62,6 +62,7 @@ def ping_analysis(l):
     vid=l[2]
     try:
         lc=s3_module.fetch_raw_gps(l)
+        print(len(lc))
         hb=s3_module.fetch_hb(l)
         if (len(hb)==0)&(len(lc)>0):
             lc['created']=lc['created']/1000
@@ -169,6 +170,7 @@ def ping_analysis(l):
             heart_beat='No data'
 
     except:
+        print("error")
         min_wise=0
         live_time=0
         gsm_average=0

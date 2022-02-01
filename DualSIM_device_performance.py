@@ -36,7 +36,7 @@ pd.set_option("display.precision", 9)
 # path for vehicle number csv
 path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number.csv"
 vid_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_id.csv"
-report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/report_{}_{}_{}.csv"
+report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_{}_{}_{}.csv"
 
 def haversine(L1,L2):
     """

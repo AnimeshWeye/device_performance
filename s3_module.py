@@ -122,7 +122,7 @@ def downloadGpsFroms3_sp(epochtime, vid):
     os.system("aws s3 --region ap-south-1 cp {} {} --recursive".format(gps_path, gps_storage_path))
 
 def fetch_raw_gps(l2):
-    l2 = [1641493800, 1641580200, 1678413]
+    # l2 = [1641493800, 1641580200, 1678413]
     from_date = getdate(l2[0])
     to_date = getdate(l2[1])
     nod = int((to_date - from_date).days) #no_of_days
@@ -142,7 +142,7 @@ def fetch_raw_gps(l2):
     count += 1
     
     data_df = pd.DataFrame()  # need to remove just for testing
-    data = get_avro_reader(s3_gps_data_path)
+    data = get_avro_reader(s3_gps_data_path[0])
     path, subdirs, files = os.walk(s3_gps_data_path)
     file_name = os.path.join(path, files)
     data = get_avro_reader(file_name)

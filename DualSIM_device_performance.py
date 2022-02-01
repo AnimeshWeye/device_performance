@@ -36,6 +36,7 @@ pd.set_option("display.precision", 9)
 # path for vehicle number csv
 path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number.csv"
 vid_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_id.csv"
+report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/report_{}.csv"
 
 def haversine(L1,L2):
     """
@@ -290,6 +291,7 @@ def run_etl():
         #result.to_pickle('/home/ubuntu/vibhor/IoT/master_device_performance/check.pkl')
         print(data1)
         print(result3)
+        result3.to_csv(report_path.format(str(analysis_date)))
         print("Done1")
         
         # previous_data=pd.read_sql("select * from analytics.master_device_performance limit 1",galaxy)

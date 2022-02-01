@@ -226,6 +226,7 @@ def run_etl():
                                     vehicle_state='LIVE' and 
                                     vehicle_number in ({})""".format(vnum_sql)
         inst_veh=pd.read_sql(query , galaxy)
+        print(inst_veh)
 
         # Downloading data and making part of new sql query 
         vid_sql = ""

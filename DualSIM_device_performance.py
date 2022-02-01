@@ -293,23 +293,22 @@ def run_etl():
         for j in tqdm(range(0, len(vehicle_list), 1000)):
             import multiprocessing
             pool = multiprocessing.Pool(2)
-            path, sub, file=pool.map(ping_analysis,vehicle_list[j:(j+1000)])
+            results1=pool.map(ping_analysis,vehicle_list[j:(j+1000)])
             # results1 = ping_analysis(vehicle_list[j:(j+1000)])
             pool.close()
             pool.join()
-            print(path, sub, file)
-            # final += results1
-        # data1=pd.DataFrame(final,columns=['vehicle_id','consistency_pct','live_pct','gsm_average','heart_beat','analysis_for_day'])
-        # result3=pd.merge(data1 , installed15[['vehicle_id','model_name','installation_date']],how='left',on='vehicle_id')
-        # result2=pd.merge(result3 , no_info_data, how='left',on=['vehicle_id','analysis_for_day'])
-        # result=pd.merge(result2 , distance_data, how='left',on=['vehicle_id','analysis_for_day'])
-        # result.fillna(0,inplace=True)
-        # result['analysis_for_day']=result['analysis_for_day'].apply(lambda x : pd.to_datetime(x , format="%Y-%m-%d",errors='coerce'))
-        # result['days_post_installation']=result['analysis_for_day']-result['installation_date']
-        # result['days_post_installation']=result.apply(lambda x : x['days_post_installation'].days,axis=1)
-        # result['online']=result['consistency_pct'].apply(lambda x : False if x==0 else True)
-        # #result.to_pickle('/home/ubuntu/vibhor/IoT/master_device_performance/check.pkl')
-        # print(data1)
+            final += results1
+        data1=pd.DataFrame(final,columns=['vehicle_id','consistency_pct','live_pct','gsm_average','heart_beat','analysis_for_day'])
+        result3=pd.merge(data1 , installed15[['vehicle_id','model_name','installation_date']],how='left',on='vehicle_id')
+        result2=pd.merge(result3 , no_info_data, how='left',on=['vehicle_id','analysis_for_day'])
+        result=pd.merge(result2 , distance_data, how='left',on=['vehicle_id','analysis_for_day'])
+        result.fillna(0,inplace=True)
+        result['analysis_for_day']=result['analysis_for_day'].apply(lambda x : pd.to_datetime(x , format="%Y-%m-%d",errors='coerce'))
+        result['days_post_installation']=result['analysis_for_day']-result['installation_date']
+        result['days_post_installation']=result.apply(lambda x : x['days_post_installation'].days,axis=1)
+        result['online']=result['consistency_pct'].apply(lambda x : False if x==0 else True)
+        #result.to_pickle('/home/ubuntu/vibhor/IoT/master_device_performance/check.pkl')
+        print(data1)
         print("Done1")
         
         # previous_data=pd.read_sql("select * from analytics.master_device_performance limit 1",galaxy)

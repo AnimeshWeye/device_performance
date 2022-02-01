@@ -134,12 +134,30 @@ def fetch_raw_gps(l2):
         s3_gps_data_path.append(get_gps_data_path(for_date.year, for_date.month, for_date.day, l2[2]))
         print(s3_gps_data_path)
     final_df = pd.DataFrame()  # concat data from all files to one df
-    # data_len = []  # number of data_points/pings
-    # count = 0
-    # data_df = pd.DataFrame()  # need to remove just for testing
-    # data = get_avro_reader(s3_gps_data_path)
+    data_len = []  # number of data_points/pings
+    count = 0
+
+    flag = False
+    final_data = []
+    count += 1
+    
+    data_df = pd.DataFrame()  # need to remove just for testing
+    data = get_avro_reader(s3_gps_data_path)
     path, subdirs, files = os.walk(s3_gps_data_path)
-    return path, subdirs, files
+    file_name = os.path.join(path, files)
+    data = get_avro_reader(file_name)
+    flag = True
+    if flag:
+        try:
+            for record in data:
+                final_data.append(record)
+            data_df = pd.DataFrame(final_data)
+            data_len.append(len(data_df))
+            final_df = pd.concat([final_df, data_df])
+        except Exception as e:
+            data_len.append(e)
+    else:
+        data_len.append("error in get_avro_reader function")
     # print(path, subdirs, files)
     # print(data)
     # for d in s3_gps_data_path:
@@ -170,15 +188,15 @@ def fetch_raw_gps(l2):
     # print(len(final_df))
     # print(final_df)
 
-    # if len(final_df) > 0:
-    #     final_df.rename(columns={'createdat': 'created'}, inplace=True)
-    #     final_df['created'] = final_df.apply(
-    #         lambda x: x['created'] * 1000 if len(str(x['created'])) < 13 else x['created'], axis=1)
-    #     final_df = final_df.sort_values(by=['time','created'], ascending=True).reset_index(drop=True)
-    #     final_df = final_df.drop_duplicates(subset=['time'], keep='last').reset_index(drop=True)
-    #     final_df = final_df[(final_df['time'] >= l2[0]) & (final_df['time'] <= l2[1])].reset_index(drop=True)
-    # gps_data = final_df
-    # return gps_data
+    if len(final_df) > 0:
+        final_df.rename(columns={'createdat': 'created'}, inplace=True)
+        final_df['created'] = final_df.apply(
+            lambda x: x['created'] * 1000 if len(str(x['created'])) < 13 else x['created'], axis=1)
+        final_df = final_df.sort_values(by=['time','created'], ascending=True).reset_index(drop=True)
+        final_df = final_df.drop_duplicates(subset=['time'], keep='last').reset_index(drop=True)
+        final_df = final_df[(final_df['time'] >= l2[0]) & (final_df['time'] <= l2[1])].reset_index(drop=True)
+    gps_data = final_df
+    return gps_data
 
 def fetch_hb(l1):
     from_date = getdate(l1[0])

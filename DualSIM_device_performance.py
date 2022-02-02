@@ -317,6 +317,7 @@ def run_etl():
                     print(search_index[y])
                     if (search_index[y] > 0):
                         print("append")
+                        print(final_result.loc[[y]])
                         arranged_report.append(final_result.loc[[y]])
                 
         print(arranged_report)

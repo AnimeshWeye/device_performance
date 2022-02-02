@@ -181,7 +181,7 @@ def ping_analysis(l):
 
 def run_etl(yr, mnth, dy):
     # print("Started at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))
-    
+    print(type(yr), type(mnth), type(dy))
     try:
         # take input from user
         # Day for analysys

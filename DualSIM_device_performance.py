@@ -218,11 +218,11 @@ def run_etl():
         # erase datetime for erasing previous day redundant data
         erase_date=getDay(start-(86400*2))
 
-        # try:
-        #     shutil.rmtree(s3_module.get_hb_dir_path_erase_sp())
-        #     shutil.rmtree(s3_module.get_gps_dir_path_erase_sp())
-        # except Exception as e:    
-        #     print(e)
+        try:
+            shutil.rmtree(s3_module.get_hb_dir_path_erase_sp())
+            shutil.rmtree(s3_module.get_gps_dir_path_erase_sp())
+        except Exception as e:    
+            print(e)
         
         # Query 1: query for extracting vehicle id for corresponding vehicle numbers stored in csv
         query="""SELECT vehicle_number, vehicle_id,date(actual_live_time) as installation_date,model_name
@@ -236,10 +236,10 @@ def run_etl():
         # Downloading data and making part of new sql query 
         vid_sql = ""
         for index, vid in enumerate(inst_veh['vehicle_id']):
-            # s3_module.downloadHbFroms3_sp(start, str(vid))
-            # s3_module.downloadGpsFroms3_sp(start, str(vid))
-            # s3_module.downloadHbFroms3_sp((start - (24*60*60)), str(vid))
-            # s3_module.downloadGpsFroms3_sp((start - (24*60*60)), str(vid))
+            s3_module.downloadHbFroms3_sp(start, str(vid))
+            s3_module.downloadGpsFroms3_sp(start, str(vid))
+            s3_module.downloadHbFroms3_sp((start - (24*60*60)), str(vid))
+            s3_module.downloadGpsFroms3_sp((start - (24*60*60)), str(vid))
             vid_sql += str(vid)
             if (index < (len(inst_veh['vehicle_id']) - 1)) :
                 vid_sql += ','
@@ -303,24 +303,17 @@ def run_etl():
         print(len(final_result))
         col = ['analysis_for_day', 'vehicle_id', 'vehicle_number', 'model_name', 'consistency_pct', 'live_pct', 'gsm_average', 'no_info_instances', 'days_post_installation']
         arranged_report = pd.DataFrame(columns=col)
-        vnum_unk = len(final_result) / 2
         for x in range(len(final_result)) :
             if((final_result['model_name'][x] == "WEYE01") | (final_result['model_name'][x] == "TMG")):
                 vhnum_str = final_result['vehicle_number'][x]
                 vhnum_str_last = vhnum_str[len(vhnum_str) - 6 : len(vhnum_str)]
-                print(vhnum_str_last)
-                # print(final_result.loc[[x]])
-                # search for matching vehicle number
                 search_index = final_result['vehicle_number'].str.find(vhnum_str_last)
-                # print(search_index)
                 for y in range(len(final_result)) :
-                    print(search_index[y])
                     if (search_index[y] > 0):
-                        print("append")
-                        print(final_result.loc[[y]])
                         arranged_report = arranged_report.append(final_result.loc[[y]])
                 
         print(arranged_report)
+        arranged_report.to_csv(report_path.format(str(getDay(gettime(analysis_date-dt.timedelta(days=2))).year), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).month), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).day)))
         print("Done1")
 
         # rearranging report : final_result

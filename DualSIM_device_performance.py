@@ -296,7 +296,7 @@ def run_etl():
         print(data1)
         print(result3)
         print(result2)
-        print(result)
+        print(result.columns)
         result3.to_csv(report_path.format(str(getDay(gettime(analysis_date-dt.timedelta(days=2))).year), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).month), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).day)))
         print("Done1")
 

@@ -355,7 +355,7 @@ for dt in range(len(date_csv)):
     dy = date_csv['dy'][dt]
     print(type(yr), type(mnth), type(dy))
     try:
-        run_etl(yr, mnth, dy)
+        run_etl(yr.item(), mnth.item(), dy.item())
     except Exception as e:
         print("error in run_etl is {}".format(e))
 

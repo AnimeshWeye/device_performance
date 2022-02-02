@@ -178,21 +178,21 @@ def ping_analysis(l):
         heart_beat='No data' 
         
     return [vid,round(min_wise/14.4,2),round(live_time/14.4,2),round(gsm_average,2),heart_beat,getDay((l[0]+l[1])/2)]
-
-def run_etl(yr, mnth, dy):
+# yr, mnth, dy
+def run_etl():
     # print("Started at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))
-    print(type(yr), type(mnth), type(dy))
+    # print(type(yr), type(mnth), type(dy))
     try:
         # take input from user
         # Day for analysys
         # yyyy-mm-dd
         # analysis_date = input("Enter Day for Analysis (YYYY-MM-DD): ")
         print("Enter Date (D + 2) to generate report for date D;\ne.g: to generate report for 2022-01-13, enter 2022-01-15.")
-        # yr = input("Enter year: ")
-        # mnth = input("Enter month: ")
-        # dy = input("Enter day: ")
-        # analysis_date = dt.datetime(int(yr), int(mnth), int(dy))
-        analysis_date = dt.datetime(yr, mnth, dy)
+        yr = input("Enter year: ")
+        mnth = input("Enter month: ")
+        dy = input("Enter day: ")
+        analysis_date = dt.datetime(int(yr), int(mnth), int(dy))
+        # analysis_date = dt.datetime(yr, mnth, dy)
         try :
             today=dt.date()
         except:
@@ -346,7 +346,7 @@ def run_etl(yr, mnth, dy):
     
     return None
 
-# run_etl()
+run_etl()
 
 date_csv = pd.read_csv(date_csv_path)
 print("Started at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))

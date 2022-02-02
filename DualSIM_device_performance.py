@@ -310,9 +310,11 @@ def run_etl():
                 print(vhnum_str_last)
                 # print(final_result.loc[[x]])
                 # search for matching vehicle number
-                for y in range(len(final_result)) :
-                    if (final_result['vehicle_number'][y].str.find(vhnum_str_last) > 0):
-                        arranged_report.append(final_result.loc[[y]])
+                search_index = final_result['vehicle_number'].str.find(vhnum_str_last)
+                print(search_index)
+                # for y in range(len(final_result)) :
+                #     if (search_index[y]) > 0):
+                #         arranged_report.append(final_result.loc[[y]])
                 
         print(arranged_report)
         print("Done1")

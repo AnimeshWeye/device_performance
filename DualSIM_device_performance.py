@@ -307,7 +307,7 @@ def run_etl():
                 vhnum_str = final_result['vehicle_number'][x]
                 vhnum_str_last = vhnum_str[len(vhnum_str) - 6 : len(vhnum_str)]
                 print(vhnum_str_last)
-                print(pd.final_result[x])
+                print(final_result.loc[[x]])
         print("Done1")
 
         # rearranging report : final_result

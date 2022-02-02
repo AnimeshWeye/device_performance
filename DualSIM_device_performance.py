@@ -301,13 +301,20 @@ def run_etl():
         # result3.to_csv(report_path.format(str(getDay(gettime(analysis_date-dt.timedelta(days=2))).year), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).month), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).day)))
         print(final_result)
         print(len(final_result))
+        arranged_report = pd.DataFrame()
         vnum_unk = len(final_result) / 2
         for x in range(len(final_result)) :
             if((final_result['model_name'][x] == "WEYE01") | (final_result['model_name'][x] == "TMG")):
                 vhnum_str = final_result['vehicle_number'][x]
                 vhnum_str_last = vhnum_str[len(vhnum_str) - 6 : len(vhnum_str)]
                 print(vhnum_str_last)
-                print(final_result.loc[[x]])
+                # print(final_result.loc[[x]])
+                # search for matching vehicle number
+                for y in range(len(final_result)) :
+                    if (final_result['vehicle_number'].find(vhnum_str_last) > 0):
+                        arranged_report.append(final_result.loc[[y]])
+                
+        print(arranged_report)
         print("Done1")
 
         # rearranging report : final_result

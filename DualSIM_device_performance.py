@@ -352,12 +352,12 @@ def run_etl(analysis_date):
 date_csv = pd.read_csv(date_csv_path)
 print("Started at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))
 for dt in range(len(date_csv)):
-    import datetime as dt
+    import datetime as indt
     yr = str(date_csv['yr'][dt])
     mnth = str(date_csv['mnth'][dt])
     dy = str(date_csv['dy'][dt])
     print(type(yr), type(mnth), type(dy))
-    ad= dt.datetime(int(yr), int(mnth), int(dy))
+    ad= indt.datetime(int(yr), int(mnth), int(dy))
     try:
         run_etl(ad)
     except Exception as e:

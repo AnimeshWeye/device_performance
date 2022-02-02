@@ -347,7 +347,7 @@ def run_etl(yr, mnth, dy):
     
     return None
 
-run_etl()
+# run_etl()
 
 date_csv = pd.read_csv(date_csv_path)
 print("Started at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))

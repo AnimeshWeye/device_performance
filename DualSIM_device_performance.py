@@ -249,7 +249,7 @@ def run_etl(yr, mnth, dy):
         for index, vid in enumerate(inst_veh['vehicle_id']):
             from multiprocessing import Pool
             pool = Pool(processes=1)
-            pool.apply_async(s3_module.downloadGpsFroms3_sp, [start], [str(vid)])
+            pool.apply_async(s3_module.downloadGpsFroms3_sp, [start, str(vid)])
             # pool.apply_async(s3_module.downloadHbFroms3_sp, [(start, str(vid))])
             # pool.apply_async(s3_module.downloadGpsFroms3_sp, [((start - (24*60*60)), str(vid))])
             # pool.apply_async(s3_module.downloadHbFroms3_sp, [((start - (24*60*60)), str(vid))])

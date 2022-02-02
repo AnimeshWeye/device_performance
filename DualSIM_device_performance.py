@@ -353,7 +353,7 @@ for dt in range(len(date_csv)):
     yr = date_csv['yr'][dt]
     mnth = date_csv['mnth'][dt]
     dy = date_csv['dy'][dt]
-    print(yr, mnth, dy)
+    print(type(yr), type(mnth), type(dy))
     try:
         run_etl(yr, mnth, dy)
     except Exception as e:

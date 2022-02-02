@@ -237,13 +237,28 @@ def run_etl(yr, mnth, dy):
         inst_veh=pd.read_sql(query , galaxy)
         print(inst_veh)
 
+        # from multiprocessing import Pool
+        # pool = Pool(processes=2)
+        # pool.apply_async(s3_module.downloadGpsFroms3, [start])
+        # pool.apply_async(s3_module.downloadHbFroms3, [start])
+        # pool.close()
+        # pool.join()
+
         # Downloading data and making part of new sql query 
         vid_sql = ""
         for index, vid in enumerate(inst_veh['vehicle_id']):
-            s3_module.downloadHbFroms3_sp(start, str(vid))
-            s3_module.downloadGpsFroms3_sp(start, str(vid))
-            s3_module.downloadHbFroms3_sp((start - (24*60*60)), str(vid))
-            s3_module.downloadGpsFroms3_sp((start - (24*60*60)), str(vid))
+            from multiprocessing import Pool
+            pool = Pool(processes=2)
+            pool.apply_async(s3_module.downloadGpsFroms3_sp, [(start, str(vid))])
+            pool.apply_async(s3_module.downloadHbFroms3_sp, [(start, str(vid))])
+            pool.apply_async(s3_module.downloadGpsFroms3_sp, [((start - (24*60*60)), str(vid))])
+            pool.apply_async(s3_module.downloadHbFroms3_sp, [((start - (24*60*60)), str(vid))])
+            pool.close()
+            pool.join()
+            # s3_module.downloadHbFroms3_sp(start, str(vid))
+            # s3_module.downloadGpsFroms3_sp(start, str(vid))
+            # s3_module.downloadHbFroms3_sp((start - (24*60*60)), str(vid))
+            # s3_module.downloadGpsFroms3_sp((start - (24*60*60)), str(vid))
             vid_sql += str(vid)
             if (index < (len(inst_veh['vehicle_id']) - 1)) :
                 vid_sql += ','

@@ -191,6 +191,7 @@ def run_etl():
         yr = input("Enter year: ")
         mnth = input("Enter month: ")
         dy = input("Enter day: ")
+        print(type(yr), type(mnth), type(dy))
         analysis_date = dt.datetime(int(yr), int(mnth), int(dy))
         # analysis_date = dt.datetime(yr, mnth, dy)
         try :

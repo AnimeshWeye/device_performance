@@ -304,7 +304,9 @@ def run_etl():
         vnum_unk = len(final_result) / 2
         for x in range(len(final_result)) :
             if((final_result['model_name'][x] == "WEYE01") | (final_result['model_name'][x] == "TMG")):
-                print("our device at ", x)
+                vhnum_str = final_result['vehicle_number'][x]
+                vhnum_str_last = vhnum_str[len(vhnum_str) - 6 : len(vhnum_str)]
+                print(vhnum_str_last)
         print("Done1")
 
         # rearranging report : final_result

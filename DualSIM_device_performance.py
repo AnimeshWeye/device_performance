@@ -218,11 +218,11 @@ def run_etl():
         # erase datetime for erasing previous day redundant data
         erase_date=getDay(start-(86400*2))
 
-        try:
-            shutil.rmtree(s3_module.get_hb_dir_path_erase_sp())
-            shutil.rmtree(s3_module.get_gps_dir_path_erase_sp())
-        except Exception as e:    
-            print(e)
+        # try:
+        #     shutil.rmtree(s3_module.get_hb_dir_path_erase_sp())
+        #     shutil.rmtree(s3_module.get_gps_dir_path_erase_sp())
+        # except Exception as e:    
+        #     print(e)
         
         # Query 1: query for extracting vehicle id for corresponding vehicle numbers stored in csv
         query="""SELECT vehicle_number, vehicle_id,date(actual_live_time) as installation_date,model_name
@@ -236,10 +236,10 @@ def run_etl():
         # Downloading data and making part of new sql query 
         vid_sql = ""
         for index, vid in enumerate(inst_veh['vehicle_id']):
-            s3_module.downloadHbFroms3_sp(start, str(vid))
-            s3_module.downloadGpsFroms3_sp(start, str(vid))
-            s3_module.downloadHbFroms3_sp((start - (24*60*60)), str(vid))
-            s3_module.downloadGpsFroms3_sp((start - (24*60*60)), str(vid))
+            # s3_module.downloadHbFroms3_sp(start, str(vid))
+            # s3_module.downloadGpsFroms3_sp(start, str(vid))
+            # s3_module.downloadHbFroms3_sp((start - (24*60*60)), str(vid))
+            # s3_module.downloadGpsFroms3_sp((start - (24*60*60)), str(vid))
             vid_sql += str(vid)
             if (index < (len(inst_veh['vehicle_id']) - 1)) :
                 vid_sql += ','
@@ -311,10 +311,10 @@ def run_etl():
                 # print(final_result.loc[[x]])
                 # search for matching vehicle number
                 search_index = final_result['vehicle_number'].str.find(vhnum_str_last)
-                print(search_index[x])
-                # for y in range(len(final_result)) :
-                #     if (search_index[y]) > 0):
-                #         arranged_report.append(final_result.loc[[y]])
+                # print(search_index)
+                for y in range(len(final_result)) :
+                    if (search_index[y] > 0):
+                        arranged_report.append(final_result.loc[[y]])
                 
         print(arranged_report)
         print("Done1")

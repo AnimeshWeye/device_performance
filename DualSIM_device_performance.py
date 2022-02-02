@@ -301,7 +301,8 @@ def run_etl():
         # result3.to_csv(report_path.format(str(getDay(gettime(analysis_date-dt.timedelta(days=2))).year), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).month), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).day)))
         print(final_result)
         print(len(final_result))
-        arranged_report = pd.DataFrame()
+        col = ['analysis_for_day', 'vehicle_id', 'vehicle_number', 'model_name', 'consistency_pct', 'live_pct', 'gsm_average', 'no_info_instances', 'days_post_installation']
+        arranged_report = pd.DataFrame(columns=col)
         vnum_unk = len(final_result) / 2
         for x in range(len(final_result)) :
             if((final_result['model_name'][x] == "WEYE01") | (final_result['model_name'][x] == "TMG")):

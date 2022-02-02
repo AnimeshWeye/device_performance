@@ -191,7 +191,8 @@ def run_etl(yr, mnth, dy):
         # yr = input("Enter year: ")
         # mnth = input("Enter month: ")
         # dy = input("Enter day: ")
-        analysis_date = dt.datetime(int(yr), int(mnth), int(dy))
+        # analysis_date = dt.datetime(int(yr), int(mnth), int(dy))
+        analysis_date = dt.datetime(yr, mnth, dy)
         try :
             today=dt.date()
         except:

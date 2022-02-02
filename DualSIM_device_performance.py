@@ -352,6 +352,7 @@ def run_etl(analysis_date):
 date_csv = pd.read_csv(date_csv_path)
 print("Started at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))
 for dt in range(len(date_csv)):
+    import datetime as dt
     yr = str(date_csv['yr'][dt])
     mnth = str(date_csv['mnth'][dt])
     dy = str(date_csv['dy'][dt])

@@ -179,7 +179,7 @@ def ping_analysis(l):
         
     return [vid,round(min_wise/14.4,2),round(live_time/14.4,2),round(gsm_average,2),heart_beat,getDay((l[0]+l[1])/2)]
 # yr, mnth, dy
-def run_etl():
+def run_etl(yr, mnth, dy):
     # print("Started at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))
     # print(type(yr), type(mnth), type(dy))
     try:
@@ -188,9 +188,9 @@ def run_etl():
         # yyyy-mm-dd
         # analysis_date = input("Enter Day for Analysis (YYYY-MM-DD): ")
         print("Enter Date (D + 2) to generate report for date D;\ne.g: to generate report for 2022-01-13, enter 2022-01-15.")
-        yr = input("Enter year: ")
-        mnth = input("Enter month: ")
-        dy = input("Enter day: ")
+        # yr = input("Enter year: ")
+        # mnth = input("Enter month: ")
+        # dy = input("Enter day: ")
         print(type(yr), type(mnth), type(dy))
         analysis_date = dt.datetime(int(yr), int(mnth), int(dy))
         # analysis_date = dt.datetime(yr, mnth, dy)
@@ -357,7 +357,7 @@ for dt in range(len(date_csv)):
     dy = date_csv['dy'][dt]
     print(type(yr), type(mnth), type(dy))
     try:
-        run_etl(yr.item(), mnth.item(), dy.item())
+        run_etl(str(yr), str(mnth), str(dy))
     except Exception as e:
         print("error in run_etl is {}".format(e))
 

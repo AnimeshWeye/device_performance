@@ -33,7 +33,8 @@ dttoday=int(tm.time()-tm.time()%86400-19800)
 
 pd.set_option("display.precision", 9)
 
-# path for vehicle number csv
+# path for csv
+date_csv_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/dates.csv"
 path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number.csv"
 vid_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_id.csv"
 report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_{}_{}_{}.csv"
@@ -178,7 +179,7 @@ def ping_analysis(l):
         
     return [vid,round(min_wise/14.4,2),round(live_time/14.4,2),round(gsm_average,2),heart_beat,getDay((l[0]+l[1])/2)]
 
-def run_etl():
+def run_etl(yr, mnth, dy):
     print("Started at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))
     
     try:
@@ -187,9 +188,9 @@ def run_etl():
         # yyyy-mm-dd
         # analysis_date = input("Enter Day for Analysis (YYYY-MM-DD): ")
         print("Enter Date (D + 2) to generate report for date D;\ne.g: to generate report for 2022-01-13, enter 2022-01-15.")
-        yr = input("Enter year: ")
-        mnth = input("Enter month: ")
-        dy = input("Enter day: ")
+        # yr = input("Enter year: ")
+        # mnth = input("Enter month: ")
+        # dy = input("Enter day: ")
         analysis_date = dt.datetime(int(yr), int(mnth), int(dy))
         try :
             today=dt.date()
@@ -344,4 +345,11 @@ def run_etl():
     
     return None
 
-run_etl()
+# run_etl()
+
+date_csv = pd.read_csv(date_csv_path)
+for dt in range(len(date_csv)):
+    yr = date_csv['yr'][dt]
+    mnth = date_csv['mnth'][dt]
+    dy = date_csv['dy'][dt]
+    print(yr, mnth, dy)

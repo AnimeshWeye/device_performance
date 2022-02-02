@@ -180,7 +180,7 @@ def ping_analysis(l):
     return [vid,round(min_wise/14.4,2),round(live_time/14.4,2),round(gsm_average,2),heart_beat,getDay((l[0]+l[1])/2)]
 
 def run_etl(yr, mnth, dy):
-    print("Started at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))
+    # print("Started at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))
     
     try:
         # take input from user
@@ -341,15 +341,22 @@ def run_etl(yr, mnth, dy):
     except Exception as e:
         print("run_etl:The error is: {}".format(e))
         
-    print("Completed at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))
+    # print("Completed at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))
     
     return None
 
 # run_etl()
 
 date_csv = pd.read_csv(date_csv_path)
+print("Started at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))
 for dt in range(len(date_csv)):
     yr = date_csv['yr'][dt]
     mnth = date_csv['mnth'][dt]
     dy = date_csv['dy'][dt]
     print(yr, mnth, dy)
+    try:
+        run_etl(str(yr), str(mnth), str(dy))
+    except Exception as e:
+        print("error in run_etl is {}".format(e))
+
+print("Completed at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))

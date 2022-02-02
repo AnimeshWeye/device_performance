@@ -11,7 +11,7 @@ galaxy=create_engine("postgresql+psycopg2://{}:{}@redshift-cluster-2.ct9kqx1dcua
 import datetime
 import time as tm
 import json
-import datetime as dt
+# import datetime as dt
 import time as tm
 #import upload_s3_to_redshift_new
 import s3_module
@@ -179,7 +179,8 @@ def ping_analysis(l):
         
     return [vid,round(min_wise/14.4,2),round(live_time/14.4,2),round(gsm_average,2),heart_beat,getDay((l[0]+l[1])/2)]
 # yr, mnth, dy
-def run_etl(analysis_date):
+def run_etl(yr, mnth, dy):
+    import datetime as dt
     # print("Started at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))
     # print(type(yr), type(mnth), type(dy))
     try:
@@ -191,9 +192,9 @@ def run_etl(analysis_date):
         # yr = input("Enter year: ")
         # mnth = input("Enter month: ")
         # dy = input("Enter day: ")
-        # print(type(yr), type(mnth), type(dy))
-        # analysis_date = dt.datetime(int(yr), int(mnth), int(dy))
-
+        print(type(yr), type(mnth), type(dy))
+        analysis_date = dt.datetime(int(yr), int(mnth), int(dy))
+        # analysis_date = dt.datetime(yr, mnth, dy)
         try :
             today=dt.date()
         except:
@@ -352,14 +353,12 @@ def run_etl(analysis_date):
 date_csv = pd.read_csv(date_csv_path)
 print("Started at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))
 for dt in range(len(date_csv)):
-    import datetime as indt
-    yr = str(date_csv['yr'][dt])
-    mnth = str(date_csv['mnth'][dt])
-    dy = str(date_csv['dy'][dt])
+    yr = int(date_csv['yr'][dt])
+    mnth = int(date_csv['mnth'][dt])
+    dy = int(date_csv['dy'][dt])
     print(type(yr), type(mnth), type(dy))
-    ad= indt.datetime(int(yr), int(mnth), int(dy))
     try:
-        run_etl(ad)
+        run_etl(yr, mnth, dy)
     except Exception as e:
         print("error in run_etl is {}".format(e))
 

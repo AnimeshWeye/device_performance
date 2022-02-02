@@ -186,6 +186,7 @@ def run_etl():
         # Day for analysys
         # yyyy-mm-dd
         # analysis_date = input("Enter Day for Analysis (YYYY-MM-DD): ")
+        print("Enter Date (D + 2) to generate report for date D;\ne.g: to generate report for 2022-01-13, enter 2022-01-15.")
         yr = input("Enter year: ")
         mnth = input("Enter month: ")
         dy = input("Enter day: ")
@@ -295,6 +296,7 @@ def run_etl():
         print(data1)
         print(result3)
         print(result2)
+        print(result)
         result3.to_csv(report_path.format(str(getDay(gettime(analysis_date-dt.timedelta(days=2))).year), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).month), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).day)))
         print("Done1")
 

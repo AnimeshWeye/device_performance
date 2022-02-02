@@ -293,16 +293,18 @@ def run_etl():
         result['days_post_installation']=result.apply(lambda x : x['days_post_installation'].days,axis=1)
         result['online']=result['consistency_pct'].apply(lambda x : False if x==0 else True)
         #result.to_pickle('/home/ubuntu/vibhor/IoT/master_device_performance/check.pkl')
-        print(data1)
-        print(result3)
-        print(result2)
+        # print(data1)
+        # print(result3)
+        # print(result2)
         print(result.columns)
         final_result = result[['analysis_for_day', 'vehicle_id', 'vehicle_number', 'model_name', 'consistency_pct', 'live_pct', 'gsm_average', 'no_info_instances', 'days_post_installation']]
         # result3.to_csv(report_path.format(str(getDay(gettime(analysis_date-dt.timedelta(days=2))).year), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).month), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).day)))
         print(final_result)
+        print(len(final_result))
         print("Done1")
 
-        # rearranging report : result3
+        # rearranging report : final_result
+        # for x in range(len)
         
         # previous_data=pd.read_sql("select * from analytics.master_device_performance limit 1",galaxy)
         # result=result[previous_data.columns]

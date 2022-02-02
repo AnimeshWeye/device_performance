@@ -294,8 +294,11 @@ def run_etl():
         #result.to_pickle('/home/ubuntu/vibhor/IoT/master_device_performance/check.pkl')
         print(data1)
         print(result3)
+        print(result2)
         result3.to_csv(report_path.format(str(getDay(gettime(analysis_date-dt.timedelta(days=2))).year), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).month), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).day)))
         print("Done1")
+
+        # rearranging report : result3
         
         # previous_data=pd.read_sql("select * from analytics.master_device_performance limit 1",galaxy)
         # result=result[previous_data.columns]

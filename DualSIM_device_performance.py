@@ -335,8 +335,10 @@ def run_etl(yr, mnth, dy):
                         if (search_index[y] > 0):
                             arranged_report = arranged_report.append(final_result.loc[[y]])
                 
-        print(arranged_report)
-        arranged_report.to_csv(report_path.format(str(getDay(gettime(analysis_date-dt.timedelta(days=2))).year), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).month), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).day)))
+            print(arranged_report)
+            arranged_report.to_csv(report_path.format(str(getDay(gettime(analysis_date-dt.timedelta(days=2))).year), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).month), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).day)))
+        else:
+            final_result.to_csv(report_path.format(str(getDay(gettime(analysis_date-dt.timedelta(days=2))).year), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).month), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).day)))
         print("Done1")
 
         # rearranging report : final_result

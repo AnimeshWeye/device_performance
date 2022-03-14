@@ -77,6 +77,7 @@ def ping_analysis(l):
             lc['date_time']=lc['time'].apply(getdate)
             lc.set_index('date_time',inplace=True)
             T_counts_array=lc.location.resample('T').count().values
+            print(T_counts_array)
             min_wise=len(T_counts_array)-len(T_counts_array[T_counts_array==0])
 
             lc2['delay']=lc2['created']-lc2['time']

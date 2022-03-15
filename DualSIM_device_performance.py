@@ -98,6 +98,7 @@ def ping_analysis(l):
                 
                 lc5 = lc2[lc2['delay']>20]
                 print(lc5)
+                lc2.to_csv("/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/lc2.csv")
             else:
                 live_time=0
 

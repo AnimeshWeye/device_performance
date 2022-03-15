@@ -96,7 +96,7 @@ def ping_analysis(l):
                 for x in range(0, len(T_counts_array2)):
                     print(T_counts_array2[x]),
                 for x in range(0, 50):
-                    print(lc[x])
+                    print(lc['date_time'][x])
             else:
                 live_time=0
 

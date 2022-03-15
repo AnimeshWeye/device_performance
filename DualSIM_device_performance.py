@@ -88,8 +88,8 @@ def ping_analysis(l):
                 T_counts_array2=lc2.location.resample('T').count().values
                 live_time=len(T_counts_array2)-len(T_counts_array2[T_counts_array2==0])
                 print("vid: " + str(vid) + " min_wise: " + str(min_wise) + "," + str(len(T_counts_array)) + "," + str(len(T_counts_array[T_counts_array==0])) + " live_time: " + str(live_time) + "," + str(len(T_counts_array2)) + "," + str(len(T_counts_array2[T_counts_array2==0])))
-                for x in len(T_counts_array):
-                    print(T_counts_array[x])
+                for index in enumerate(T_counts_array):
+                    print(T_counts_array[index])
             else:
                 live_time=0
 

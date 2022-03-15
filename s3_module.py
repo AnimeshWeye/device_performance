@@ -163,6 +163,7 @@ def fetch_raw_gps(l2):
                         data_len.append(len(data_df))
                         final_df = pd.concat([final_df, data_df])
                     except Exception as e:
+                        print("error: ",e," file: ",file_name)
                         data_len.append(e)
                 else:
                     data_len.append("error in get_avro_reader function")

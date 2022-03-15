@@ -88,17 +88,17 @@ def ping_analysis(l):
                 T_counts_array2=lc2.location.resample('T').count().values
                 live_time=len(T_counts_array2)-len(T_counts_array2[T_counts_array2==0])
                 print("vid: " + str(vid) + " min_wise: " + str(min_wise) + "," + str(len(T_counts_array)) + "," + str(len(T_counts_array[T_counts_array==0])) + " live_time: " + str(live_time) + "," + str(len(T_counts_array2)) + "," + str(len(T_counts_array2[T_counts_array2==0])))
-                print("consistency: ")
-                for x in range(0, len(T_counts_array)):
-                    print(T_counts_array[x]),
-                print("")
-                print("live: ")
-                for x in range(0, len(T_counts_array2)):
-                    print(T_counts_array2[x]),
+                # print("consistency: ")
+                # for x in range(0, len(T_counts_array)):
+                #     print(T_counts_array[x]),
+                # print("")
+                # print("live: ")
+                # for x in range(0, len(T_counts_array2)):
+                #     print(T_counts_array2[x]),
                 
-                lc5 = lc2[lc2['delay']>20]
-                print(lc5)
-                lc2.to_csv("/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/lc2.csv")
+                # lc5 = lc2[lc2['delay']>20]
+                # print(lc5)
+                # lc2.to_csv("/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/lc2.csv")
             else:
                 live_time=0
 
@@ -307,6 +307,7 @@ def run_etl(yr, mnth, dy):
 
         analysis_of=list(installed15['vehicle_id'].unique())
         vehicle_list=[[int(start - (24*60*60)),int(end - (24*60*60)),int(x)] for x in analysis_of]
+        print(vehicle_list)
 
         final=[]
         for j in tqdm(range(0, len(vehicle_list), 1000)):

@@ -160,6 +160,7 @@ def fetch_raw_gps(l2):
                     try:
                         for record in data:
                             final_data.append(record)
+                            print(final_data)
                         data_df = pd.DataFrame(final_data)
                         data_len.append(len(data_df))
                         final_df = pd.concat([final_df, data_df])

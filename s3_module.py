@@ -153,6 +153,7 @@ def fetch_raw_gps(l2):
                 try:
                     data = get_avro_reader(file_name)
                     flag = True
+                    print(data)
                 except Exception as e:
                     a = 1
                 if flag:

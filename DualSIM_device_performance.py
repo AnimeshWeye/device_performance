@@ -31,7 +31,7 @@ getdate=lambda x: pd.datetime.fromtimestamp(x)
 getDay=lambda x: pd.datetime.fromtimestamp(x).date()
 dttoday=int(tm.time()-tm.time()%86400-19800)
 
-rearrange = 0
+rearrange = 1
 
 pd.set_option("display.precision", 9)
 

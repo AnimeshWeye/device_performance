@@ -97,7 +97,7 @@ def ping_analysis(l):
                     print(T_counts_array2[x]),
                 
                 lc5 = lc2[['created','delay']]
-                # print(lc5)
+                print(lc5)
             else:
                 live_time=0
 

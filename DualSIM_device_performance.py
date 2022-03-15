@@ -96,8 +96,8 @@ def ping_analysis(l):
                 for x in range(0, len(T_counts_array2)):
                     print(T_counts_array2[x]),
                 
-                lc5 = lc2[['vid','date_time','created','delay']]
-                print(lc5)
+                lc5 = lc2[['created','delay']]
+                # print(lc5)
             else:
                 live_time=0
 

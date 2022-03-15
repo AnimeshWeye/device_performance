@@ -232,6 +232,7 @@ def run_etl(yr, mnth, dy):
         # time adjustment for start and end time of analysis
         start=gettime(analysis_date) - (29.5*60*60)
         end=gettime(analysis_date) - (5.5*60*60)
+        print("start: " + str(strat) + " end: " + str(end) + " analysis date: " + str(analysis_date))
 
         # erase datetime for erasing previous day redundant data
         erase_date=getDay(start-(86400*2))

@@ -364,9 +364,15 @@ def run_etl(yr, mnth, dy):
                     if is_vnum_added == 0:
                         print(vhnum_str)
                         vnum_undertest.append(vhnum_str)
-                    # live_all_d.append(final_result['live_pct'][vindx])
-                    vnum_undertest.insert(10, 'dewhj')
-                    print(vnum_undertest)
+                        live_all_d.append(final_result['live_pct'][x])
+                        cons_all_d.append(final_result['consistency_pct'][x])
+                    else:
+                        print("adding data to ")
+            
+
+            print(vnum_undertest)
+            print(live_all_d)
+            print(cons_all_d)
             
             if is_vnum_added == 0:
                 all_data.insert(0, "vehicle_number", vnum_undertest)

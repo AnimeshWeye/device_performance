@@ -360,8 +360,8 @@ def run_etl(yr, mnth, dy):
                         print(vhnum_str)
                         vnum_undertest.append(vhnum_str)
             
-            # all_data.loc[len(all_data)] = 
-            print(vnum_undertest)
+            if is_vnum_added == 0:
+                all_data.insert(0, "vehicle_number", vnum_undertest)
             #         vhnum_str_last = vhnum_str[len(vhnum_str) - 6 : len(vhnum_str)]
             #         search_index = final_result['vehicle_number'].str.find(vhnum_str_last)
             #         for y in range(len(final_result)) :

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+from ftplib import all_errors
 from turtle import delay, distance
 import pandas as pd
 import sqlalchemy
@@ -354,7 +355,7 @@ def run_etl(yr, mnth, dy):
                 if((final_result['model_name'][x] == "WEYE01") | (final_result['model_name'][x] == "TMG")):
                     vhnum_str = final_result['vehicle_number'][x]
                     nr = nr + 1
-                    all_data['vehicle_number'][nr] = vhnum_str
+                    all_data[nr] = vhnum_str
                     vhnum_str_last = vhnum_str[len(vhnum_str) - 6 : len(vhnum_str)]
                     search_index = final_result['vehicle_number'].str.find(vhnum_str_last)
                     for y in range(len(final_result)) :
@@ -401,14 +402,22 @@ def run_etl(yr, mnth, dy):
 
 date_csv = pd.read_csv(date_csv_path)
 print("Started at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))
+ndl = 0
 for dt in range(len(date_csv)):
+    ndl = ndl + 1
     yr = int(date_csv['yr'][dt])
     mnth = int(date_csv['mnth'][dt])
     dy = int(date_csv['dy'][dt])
     print(type(yr), type(mnth), type(dy))
     try:
+        new_date = dt.datetime(int(yr), int(mnth), int(dy))
+        new_date_str = str(getDay(gettime(new_date-dt.timedelta(days=2))).year) + "_" + str(getDay(gettime(new_date-dt.timedelta(days=2))).month) + "_" + str(getDay(gettime(new_date-dt.timedelta(days=2))).day)
+        print(new_date_str)
+        col_n = new_date_str
+        all_data.insert(ndl, new_date_str)
         run_etl(yr, mnth, dy)
     except Exception as e:
         print("error in run_etl is {}".format(e))
 
+print(all_data)
 print("Completed at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))

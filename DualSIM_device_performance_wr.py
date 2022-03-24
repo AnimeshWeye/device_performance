@@ -411,6 +411,7 @@ for dt in range(len(date_csv)):
     dy = int(date_csv['dy'][dt])
     print(type(yr), type(mnth), type(dy))
     try:
+        import datetime as dt
         new_date = dt.datetime(int(yr), int(mnth), int(dy))
         new_date_str = str(getDay(gettime(new_date-dt.timedelta(days=2))).year) + "_" + str(getDay(gettime(new_date-dt.timedelta(days=2))).month) + "_" + str(getDay(gettime(new_date-dt.timedelta(days=2))).day)
         print(new_date_str)

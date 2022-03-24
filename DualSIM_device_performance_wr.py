@@ -377,6 +377,8 @@ def run_etl(yr, mnth, dy):
             
             if is_vnum_added == 0:
                 all_data.insert(0, "vehicle_number", vnum_undertest)
+                all_data.insert(1, new_date_str, live_all_d)
+
             #         vhnum_str_last = vhnum_str[len(vhnum_str) - 6 : len(vhnum_str)]
             #         search_index = final_result['vehicle_number'].str.find(vhnum_str_last)
             #         for y in range(len(final_result)) :
@@ -440,8 +442,8 @@ for dt in range(len(date_csv)):
         all_data.insert(ndl, new_date_str, [0])
         run_etl(yr, mnth, dy)
         is_vnum_added = 1
+        print(all_data)
     except Exception as e:
         print("error in run_etl is {}".format(e))
 
-print(all_data)
 print("Completed at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))

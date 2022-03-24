@@ -439,7 +439,7 @@ for dt in range(len(date_csv)):
         new_date_str = str(getDay(gettime(new_date-dt.timedelta(days=2))).year) + "_" + str(getDay(gettime(new_date-dt.timedelta(days=2))).month) + "_" + str(getDay(gettime(new_date-dt.timedelta(days=2))).day)
         print(new_date_str)
         col_n = new_date_str
-        all_data.insert(ndl, new_date_str, [0])
+        all_data.insert(ndl, new_date_str, [0,0,0,0])
         run_etl(yr, mnth, dy)
         is_vnum_added = 1
         live_all_d = []

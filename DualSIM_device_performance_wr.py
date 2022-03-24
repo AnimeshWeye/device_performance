@@ -351,7 +351,6 @@ def run_etl(yr, mnth, dy):
         # print(len(final_result))
         col = ['analysis_for_day', 'vehicle_id', 'vehicle_number', 'model_name', 'consistency_pct', 'live_pct', 'gsm_average', 'no_info_instances', 'days_post_installation']
         arranged_report = pd.DataFrame(columns=col)
-        nr = 0
         if rearrange:
             for x in range((len(final_result))) :
                 print("rearranging report")
@@ -359,8 +358,7 @@ def run_etl(yr, mnth, dy):
                     vhnum_str = final_result['vehicle_number'][x]
                     if is_vnum_added == 0:
                         print(vhnum_str)
-                        vnum_undertest[nr] = vnum_undertest.append(vhnum_str)
-                        nr = nr + 1
+                        vnum_undertest.append(vhnum_str)
             
             # all_data.loc[len(all_data)] = 
             print(vnum_undertest)

@@ -367,7 +367,8 @@ def run_etl(yr, mnth, dy):
                         live_all_d.append(final_result['live_pct'][x])
                         cons_all_d.append(final_result['consistency_pct'][x])
                     else:
-                        print("adding data to ")
+                        live_all_d.append(final_result['live_pct'][x])
+                        cons_all_d.append(final_result['consistency_pct'][x])
             
 
             print(vnum_undertest)

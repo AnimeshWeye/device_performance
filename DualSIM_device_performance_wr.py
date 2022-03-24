@@ -53,7 +53,7 @@ report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/rep
 is_vnum_added = 0
 vnum_undertest = []
 
-all_data = pd.DataFrame()
+all_data = pd.DataFrame(columns=['vehicle_number'])
 live_all_d = []
 cons_all_d = []
 gsm_all_d = []
@@ -368,8 +368,8 @@ def run_etl(yr, mnth, dy):
                     # vnum_undertest.insert(3, 'dewhj')
                     # print(vnum_undertest)
             
-            # if is_vnum_added == 0:
-            #     all_data.insert(0, "vehicle_number", vnum_undertest)
+            if is_vnum_added == 0:
+                all_data.insert(0, "vehicle_number", vnum_undertest)
             #         vhnum_str_last = vhnum_str[len(vhnum_str) - 6 : len(vhnum_str)]
             #         search_index = final_result['vehicle_number'].str.find(vhnum_str_last)
             #         for y in range(len(final_result)) :

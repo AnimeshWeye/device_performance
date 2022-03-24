@@ -1,0 +1,5 @@
+,analysis_for_day,vehicle_id,vehicle_number,model_name,consistency_pct,live_pct,gsm_average,no_info_instances,days_post_installation
+0,2022-03-12,13445,NL01AC4181,WETRACK2,98.33,75.14,93.62,0,1243
+1,2022-03-12,17335,NL01AB0371,WETRACK2,98.96,79.17,92.76,0,1171
+2,2022-03-12,887012,HR55Y1278,WETRACK2,97.92,79.17,96.62,0,566
+3,2022-03-12,12051,NL01AC2617,WECX01,99.24,71.11,79.45,0,144

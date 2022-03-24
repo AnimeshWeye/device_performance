@@ -40,14 +40,14 @@ pd.set_option("display.precision", 9)
 date_csv_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/dates_solar.csv"
 # vehicle number csv
 # path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_inhouse.csv"
-path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_solar.csv"
-# path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_prll.csv"
+# path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_solar.csv"
+path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_prll.csv"
 
 vid_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_id.csv"
 # report paths 
-report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_{}_{}_{}.csv"
-report_path_solar = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_solar_{}_{}_{}.csv"
-report_path_solar_prll = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_solar_parallel_{}_{}_{}.csv"
+# report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_{}_{}_{}.csv"
+# report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_solar_{}_{}_{}.csv"
+report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_solar_parallel_{}_{}_{}.csv"
 
 def haversine(L1,L2):
     """
@@ -373,7 +373,7 @@ def run_etl(yr, mnth, dy):
             print(arranged_report)
             arranged_report.to_csv(report_path.format(str(getDay(gettime(analysis_date-dt.timedelta(days=2))).year), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).month), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).day)))
         else:
-            final_result.to_csv(report_path_solar.format(str(getDay(gettime(analysis_date-dt.timedelta(days=2))).year), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).month), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).day)))
+            final_result.to_csv(report_path.format(str(getDay(gettime(analysis_date-dt.timedelta(days=2))).year), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).month), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).day)))
         print("Done1")
 
         # rearranging report : final_result

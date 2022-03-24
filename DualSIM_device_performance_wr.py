@@ -442,6 +442,8 @@ for dt in range(len(date_csv)):
         all_data.insert(ndl, new_date_str, [0])
         run_etl(yr, mnth, dy)
         is_vnum_added = 1
+        live_all_d = []
+        cons_all_d = []
         print(all_data)
     except Exception as e:
         print("error in run_etl is {}".format(e))

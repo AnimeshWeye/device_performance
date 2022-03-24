@@ -376,8 +376,8 @@ def run_etl(yr, mnth, dy):
             print(cons_all_d)
             
             if is_vnum_added == 0:
-                all_data.insert(0, "vehicle_numbers", vnum_undertest)
-                # all_data.insert(1, new_date_str, live_all_d)
+                all_data.insert(0, "vehicle_number", vnum_undertest)
+                all_data.insert(1, new_date_str, live_all_d)
 
             #         vhnum_str_last = vhnum_str[len(vhnum_str) - 6 : len(vhnum_str)]
             #         search_index = final_result['vehicle_number'].str.find(vhnum_str_last)

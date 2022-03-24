@@ -358,6 +358,7 @@ def run_etl(yr, mnth, dy):
                 if((final_result['model_name'][x] == "WEYE01") | (final_result['model_name'][x] == "TMG")):
                     vhnum_str = final_result['vehicle_number'][x]
                     if is_vnum_added == 0:
+                        print(vhnum_str)
                         vnum_undertest[nr] = vnum_undertest.append(vhnum_str)
                         nr = nr + 1
             

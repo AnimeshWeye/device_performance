@@ -403,6 +403,7 @@ def run_etl(yr, mnth, dy):
 date_csv = pd.read_csv(date_csv_path)
 print("Started at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))
 ndl = 0
+import datetime as dt
 for dt in range(len(date_csv)):
     ndl = ndl + 1
     yr = int(date_csv['yr'][dt])

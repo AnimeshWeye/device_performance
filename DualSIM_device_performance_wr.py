@@ -9,8 +9,8 @@ import shutil
 from tqdm import tqdm
 from sqlalchemy import create_engine
 galaxy=create_engine("postgresql+psycopg2://{}:{}@redshift-cluster-2.ct9kqx1dcuaa.ap-south-1.redshift.amazonaws.com:5439/datalake".format("byogesh","W1MOi90gFZOH"))
-import datetime
-# import datetime as dt
+# import datetime
+import datetime as dt
 import time as tm
 #import upload_s3_to_redshift_new
 import s3_module
@@ -19,7 +19,7 @@ import numpy as np
 from pymongo import MongoClient
 from math import radians, cos, sin, asin, sqrt
 import pymysql
-from datetime import datetime,timedelta
+# from datetime import datetime,timedelta
 import json
 import urllib.request
 import warnings
@@ -204,7 +204,7 @@ def ping_analysis(l):
     return [vid,round(min_wise/14.4,2),round(live_time/14.4,2),round(gsm_average,2),heart_beat,getDay((l[0]+l[1])/2)]
 # yr, mnth, dy
 def run_etl(yr, mnth, dy):
-    import datetime as dt
+    # import datetime as dt
     # print("Started at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))
     # print(type(yr), type(mnth), type(dy))
     try:
@@ -403,7 +403,7 @@ def run_etl(yr, mnth, dy):
 date_csv = pd.read_csv(date_csv_path)
 print("Started at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))
 ndl = 0
-import datetime as dt
+# import datetime as dt
 for dt in range(len(date_csv)):
     ndl = ndl + 1
     yr = int(date_csv['yr'][dt])

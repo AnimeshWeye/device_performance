@@ -1,0 +1,5 @@
+,analysis_for_day,vehicle_id,vehicle_number,model_name,consistency_pct,live_pct,gsm_average,no_info_instances,days_post_installation
+0,2022-03-19,1691829,NL01ABB0371,WECX01,99.44,91.88,99.01,0,30
+1,2022-03-19,1929147,NL01AAC4181,WECX01,98.12,86.81,75.15,0,25
+2,2022-03-19,1929092,HR55AY1278,WECX01,98.12,80.49,94.13,0,25
+3,2022-03-19,1928665,NL01AAC2617,WECX01,97.08,90.0,99.81,0,25

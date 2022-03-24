@@ -45,6 +45,10 @@ path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehic
 vid_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_id.csv"
 # report paths 
 report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports_test/report_{}_{}_{}.csv"
+report_path_live = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports_test/report_inhouse_live.csv"
+report_path_con = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports_test/report_inhouse_con.csv"
+report_path_gsm = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports_test/report_inhouse_gsm.csv"
+report_path_noinfo = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports_test/report_inhouse_noinfo.csv"
 # report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_solar_{}_{}_{}.csv"
 # report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_solar_parallel_{}_{}_{}.csv"
 
@@ -53,7 +57,10 @@ report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/rep
 is_vnum_added = 0
 vnum_undertest = []
 
-all_data = pd.DataFrame()
+all_data_live = pd.DataFrame()
+all_data_con = pd.DataFrame()
+all_data_gsm = pd.DataFrame()
+all_data_noinfo = pd.DataFrame()
 live_all_d = []
 cons_all_d = []
 gsm_all_d = []
@@ -376,45 +383,26 @@ def run_etl(yr, mnth, dy):
             print(cons_all_d)
             
             if is_vnum_added == 0:
-                all_data.insert(0, "vehicle_number", vnum_undertest)
-                all_data.insert(1, new_date_str, live_all_d)
+                all_data_live.insert(0, "vehicle_number", vnum_undertest)
+                all_data_con.insert(0, "vehicle_number", vnum_undertest)
+                all_data_gsm.insert(0, "vehicle_number", vnum_undertest)
+                all_data_noinfo.insert(0, "vehicle_number", vnum_undertest)
+                all_data_live.insert(1, new_date_str, live_all_d)
+                all_data_con.insert(1, new_date_str, cons_all_d)
+                all_data_gsm.insert(1, new_date_str, gsm_all_d)
+                all_data_noinfo.insert(1, new_date_str, noinfoinst_all_d)
             else:
-                all_data.insert(1, new_date_str, live_all_d)
+                all_data_live.insert(ndl, new_date_str, live_all_d)
+                all_data_con.insert(ndl, new_date_str, cons_all_d)
+                all_data_gsm.insert(ndl, new_date_str, gsm_all_d)
+                all_data_noinfo.insert(ndl, new_date_str, noinfoinst_all_d)
 
-            #         vhnum_str_last = vhnum_str[len(vhnum_str) - 6 : len(vhnum_str)]
-            #         search_index = final_result['vehicle_number'].str.find(vhnum_str_last)
-            #         for y in range(len(final_result)) :
-            #             if (search_index[y] > 0):
-            #                 arranged_report = arranged_report.append(final_result.loc[[y]])
-                
             # print(arranged_report)
             # arranged_report.to_csv(report_path.format(str(getDay(gettime(analysis_date-dt.timedelta(days=2))).year), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).month), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).day)))
-        else:
-            final_result.to_csv(report_path.format(str(getDay(gettime(analysis_date-dt.timedelta(days=2))).year), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).month), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).day)))
-        
-        print(all_data)
-        print("Done1")
-
-        # rearranging report : final_result
-        # for x in range(len)
-        
-        # previous_data=pd.read_sql("select * from analytics.master_device_performance limit 1",galaxy)
-        # result=result[previous_data.columns]
-        # print("Done2")
-        # data=result
-        # table_name='master_device_performance'
-        # update_type='append_concat'
-        # if update_type != 'update_table':
-        #    col_name=None
         # else:
-        #    col_name=etl_data[3]
-        # print("Done3")
-        # upload_s3_to_redshift_new.upload_to_s3(data,table_name)
-        # print("Done4")
-        # upload_s3_to_redshift_new.update_execute(update_type,data,table_name,col_name)
-        # print("Done5")
-        # upload_s3_to_redshift_new.delete_from_s3(table_name)
-        # print("Done6")
+        #     final_result.to_csv(report_path.format(str(getDay(gettime(analysis_date-dt.timedelta(days=2))).year), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).month), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).day)))
+        
+        print("Done1")
    
     except Exception as e:
         print("run_etl:The error is: {}".format(e))
@@ -446,8 +434,13 @@ for dt in range(len(date_csv)):
         is_vnum_added = 1
         live_all_d = []
         cons_all_d = []
-        print(all_data)
+        print(all_data_live)
     except Exception as e:
         print("error in run_etl is {}".format(e))
+
+all_data_live.to_csv(report_path_live)
+all_data_con.to_csv(report_path_con)
+all_data_gsm.to_csv(report_path_gsm)
+all_data_noinfo.to_csv(report_path_noinfo)
 
 print("Completed at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))

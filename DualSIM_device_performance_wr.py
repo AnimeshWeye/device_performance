@@ -347,13 +347,14 @@ def run_etl(yr, mnth, dy):
         # print(len(final_result))
         col = ['analysis_for_day', 'vehicle_id', 'vehicle_number', 'model_name', 'consistency_pct', 'live_pct', 'gsm_average', 'no_info_instances', 'days_post_installation']
         arranged_report = pd.DataFrame(columns=col)
-
+        nr = 0
         if rearrange:
             for x in range((len(final_result))) :
                 print("rearranging report")
                 if((final_result['model_name'][x] == "WEYE01") | (final_result['model_name'][x] == "TMG")):
                     vhnum_str = final_result['vehicle_number'][x]
-                    all_data['vehicle_number'].append(vhnum_str)
+                    nr = nr + 1
+                    all_data['vehicle_number'][nr] = vhnum_str
                     vhnum_str_last = vhnum_str[len(vhnum_str) - 6 : len(vhnum_str)]
                     search_index = final_result['vehicle_number'].str.find(vhnum_str_last)
                     for y in range(len(final_result)) :

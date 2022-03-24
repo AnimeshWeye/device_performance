@@ -34,18 +34,21 @@ rearrange = 0
 pd.set_option("display.precision", 9)
 
 # path for csv
-# date_csv_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/dates.csv"
-date_csv_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/dates_solar.csv"
+date_csv_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/dates.csv"
+# date_csv_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/dates_solar.csv"
 # vehicle number csv
-# path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_inhouse.csv"
+path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_inhouse.csv"
 # path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_solar.csv"
-path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_solar_prll.csv"
+# path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_solar_prll.csv"
 
 vid_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_id.csv"
 # report paths 
-# report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_{}_{}_{}.csv"
+report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports_test/report_{}_{}_{}.csv"
 # report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_solar_{}_{}_{}.csv"
-report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_solar_parallel_{}_{}_{}.csv"
+# report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_solar_parallel_{}_{}_{}.csv"
+
+# new dataframe for report generation
+all_data = pd.DataFrame(columns=['vehicle_number'])
 
 def haversine(L1,L2):
     """
@@ -344,24 +347,13 @@ def run_etl(yr, mnth, dy):
         # print(len(final_result))
         col = ['analysis_for_day', 'vehicle_id', 'vehicle_number', 'model_name', 'consistency_pct', 'live_pct', 'gsm_average', 'no_info_instances', 'days_post_installation']
         arranged_report = pd.DataFrame(columns=col)
-        # if rearrange:
-        #     for x in range((len(final_result)/2)) :
-        #         print("rearranging report")
-        #         if((final_result['model_name'][x] == "WECX01") | (final_result['model_name'][x] == "TMG")):
-        #             vhnum_str = final_result['vehicle_number'][x]
-        #             vhnum_str_last = vhnum_str[len(vhnum_str) - 5 : len(vhnum_str)]
-        #             search_index = final_result['vehicle_number'].str.find(vhnum_str_last)
-        #             for y in range(len(final_result)) :
-        #                 if (search_index[y] > 0):
-        #                     arranged_report = arranged_report.append(final_result.loc[[y]])
-                
-        #     print(arranged_report)
-        #     arranged_report.to_csv(report_path.format(str(getDay(gettime(analysis_date-dt.timedelta(days=2))).year), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).month), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).day)))
+
         if rearrange:
             for x in range((len(final_result))) :
                 print("rearranging report")
                 if((final_result['model_name'][x] == "WEYE01") | (final_result['model_name'][x] == "TMG")):
                     vhnum_str = final_result['vehicle_number'][x]
+                    all_data['vehicle_number'].append(vhnum_str)
                     vhnum_str_last = vhnum_str[len(vhnum_str) - 6 : len(vhnum_str)]
                     search_index = final_result['vehicle_number'].str.find(vhnum_str_last)
                     for y in range(len(final_result)) :
@@ -372,6 +364,8 @@ def run_etl(yr, mnth, dy):
             arranged_report.to_csv(report_path.format(str(getDay(gettime(analysis_date-dt.timedelta(days=2))).year), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).month), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).day)))
         else:
             final_result.to_csv(report_path.format(str(getDay(gettime(analysis_date-dt.timedelta(days=2))).year), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).month), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).day)))
+        
+        print(all_data)
         print("Done1")
 
         # rearranging report : final_result

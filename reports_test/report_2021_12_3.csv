@@ -1,0 +1,5 @@
+,analysis_for_day,vehicle_id,vehicle_number,model_name,consistency_pct,live_pct,gsm_average,no_info_instances,days_post_installation
+0,2021-12-03,1678510,HR038AC4399,WEYE01,100.0,87.64,79.31,0.0,15
+1,2021-12-03,1678279,HR038AC8427,WEYE01,60.83,53.54,69.21,1.0,15
+2,2021-12-03,1678163,NL001AA4912,WEYE01,97.85,89.93,67.42,0.0,15
+3,2021-12-03,1678413,NL001AA6688,WEYE01,87.78,83.89,65.05,0.0,15

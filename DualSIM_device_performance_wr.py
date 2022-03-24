@@ -32,9 +32,6 @@ dttoday=int(tm.time()-tm.time()%86400-19800)
 
 rearrange = 1
 
-is_vnum_added = 0
-vnum_undertest = []
-
 pd.set_option("display.precision", 9)
 
 # path for csv
@@ -52,7 +49,15 @@ report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/rep
 # report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_solar_parallel_{}_{}_{}.csv"
 
 # new dataframe for report generation
-all_data = pd.DataFrame(columns=['vehicle_number'])
+
+is_vnum_added = 0
+vnum_undertest = []
+
+all_data = pd.DataFrame()
+live_all_d = []
+cons_all_d = []
+gsm_all_d = []
+noinfoinst_all_d = []
 
 def haversine(L1,L2):
     """
@@ -359,6 +364,8 @@ def run_etl(yr, mnth, dy):
                     if is_vnum_added == 0:
                         print(vhnum_str)
                         vnum_undertest.append(vhnum_str)
+                    # live_all_d.append(final_result['live_pct'][vindx])
+                    vnum_undertest[9] = "dewgdhe"
             
             if is_vnum_added == 0:
                 all_data.insert(0, "vehicle_number", vnum_undertest)

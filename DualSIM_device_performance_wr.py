@@ -425,6 +425,7 @@ for dt in range(len(date_csv)):
         col_n = new_date_str
         all_data.insert(ndl, new_date_str, [0])
         run_etl(yr, mnth, dy)
+        is_vnum_added = 1
     except Exception as e:
         print("error in run_etl is {}".format(e))
 

@@ -44,7 +44,7 @@ path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehic
 
 vid_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_id.csv"
 # report paths 
-report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports_test/report_{}_{}_{}.csv"
+# report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports_test/report_{}_{}_{}.csv"
 report_path_live = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports_test/report_inhouse_live.csv"
 report_path_con = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports_test/report_inhouse_con.csv"
 report_path_gsm = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports_test/report_inhouse_gsm.csv"

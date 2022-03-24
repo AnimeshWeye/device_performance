@@ -30,7 +30,10 @@ getdate=lambda x: pd.datetime.fromtimestamp(x)
 getDay=lambda x: pd.datetime.fromtimestamp(x).date()
 dttoday=int(tm.time()-tm.time()%86400-19800)
 
-rearrange = 0
+rearrange = 1
+
+is_vnum_added = 0
+vnum_undertest = []
 
 pd.set_option("display.precision", 9)
 
@@ -354,16 +357,20 @@ def run_etl(yr, mnth, dy):
                 print("rearranging report")
                 if((final_result['model_name'][x] == "WEYE01") | (final_result['model_name'][x] == "TMG")):
                     vhnum_str = final_result['vehicle_number'][x]
-                    nr = nr + 1
-                    all_data[nr] = vhnum_str
-                    vhnum_str_last = vhnum_str[len(vhnum_str) - 6 : len(vhnum_str)]
-                    search_index = final_result['vehicle_number'].str.find(vhnum_str_last)
-                    for y in range(len(final_result)) :
-                        if (search_index[y] > 0):
-                            arranged_report = arranged_report.append(final_result.loc[[y]])
+                    if is_vnum_added == 0:
+                        vnum_undertest[nr] = vnum_undertest.append(vhnum_str)
+                        nr = nr + 1
+            
+            # all_data.loc[len(all_data)] = 
+            print(vnum_undertest)
+            #         vhnum_str_last = vhnum_str[len(vhnum_str) - 6 : len(vhnum_str)]
+            #         search_index = final_result['vehicle_number'].str.find(vhnum_str_last)
+            #         for y in range(len(final_result)) :
+            #             if (search_index[y] > 0):
+            #                 arranged_report = arranged_report.append(final_result.loc[[y]])
                 
-            print(arranged_report)
-            arranged_report.to_csv(report_path.format(str(getDay(gettime(analysis_date-dt.timedelta(days=2))).year), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).month), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).day)))
+            # print(arranged_report)
+            # arranged_report.to_csv(report_path.format(str(getDay(gettime(analysis_date-dt.timedelta(days=2))).year), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).month), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).day)))
         else:
             final_result.to_csv(report_path.format(str(getDay(gettime(analysis_date-dt.timedelta(days=2))).year), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).month), str(getDay(gettime(analysis_date-dt.timedelta(days=2))).day)))
         

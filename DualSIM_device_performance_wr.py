@@ -365,7 +365,7 @@ def run_etl(yr, mnth, dy):
                         print(vhnum_str)
                         vnum_undertest.append(vhnum_str)
                     # live_all_d.append(final_result['live_pct'][vindx])
-                    vnum_undertest.insert(9, "dewvgh")
+                    vnum_undertest.insert(0, "dewvgh")
             
             if is_vnum_added == 0:
                 all_data.insert(0, "vehicle_number", vnum_undertest)

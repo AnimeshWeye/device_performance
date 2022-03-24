@@ -373,9 +373,13 @@ def run_etl(yr, mnth, dy):
                         vnum_undertest.append(vhnum_str)
                         live_all_d.append(final_result['live_pct'][x])
                         cons_all_d.append(final_result['consistency_pct'][x])
+                        gsm_all_d.append(final_result['gsm_average'][x])
+                        noinfoinst_all_d.append(final_result['no_info_instances'][x])
                     else:
                         live_all_d.append(final_result['live_pct'][x])
                         cons_all_d.append(final_result['consistency_pct'][x])
+                        gsm_all_d.append(final_result['gsm_average'][x])
+                        noinfoinst_all_d.append(final_result['no_info_instances'][x])
             
 
             print(vnum_undertest)
@@ -434,6 +438,8 @@ for dt in range(len(date_csv)):
         is_vnum_added = 1
         live_all_d = []
         cons_all_d = []
+        gsm_all_d = []
+        noinfoinst_all_d = []
         print(all_data_live)
     except Exception as e:
         print("error in run_etl is {}".format(e))

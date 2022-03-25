@@ -46,10 +46,10 @@ path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehic
 vid_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_id.csv"
 # report paths 
 # report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports_test/report_{}_{}_{}.csv"
-report_path_live = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports_test/report_inhouse_live.csv"
-report_path_con = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports_test/report_inhouse_con.csv"
-report_path_gsm = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports_test/report_inhouse_gsm.csv"
-report_path_noinfo = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports_test/report_inhouse_noinfo.csv"
+report_path_live = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_inhouse_live.csv"
+report_path_con = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_inhouse_con.csv"
+report_path_gsm = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_inhouse_gsm.csv"
+report_path_noinfo = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_inhouse_noinfo.csv"
 # report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_solar_{}_{}_{}.csv"
 # report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_solar_parallel_{}_{}_{}.csv"
 
@@ -367,7 +367,7 @@ def run_etl(yr, mnth, dy):
         if rearrange:
             for x in range((len(final_result))) :
                 print("rearranging report")
-                if((final_result['model_name'][x] == "WEYE01") | (final_result['model_name'][x] == "TMG")):
+                if((final_result['model_name'][x] != "WEYE01") & (final_result['model_name'][x] != "TMG")):
                     vhnum_str = final_result['vehicle_number'][x]
                     if is_vnum_added == 0:
                         print(vhnum_str)

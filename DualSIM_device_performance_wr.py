@@ -113,7 +113,7 @@ def ping_analysis(l):
                 lc2.set_index('date_time',inplace=True)
                 T_counts_array2=lc2.location.resample('T').count().values
                 live_time=len(T_counts_array2)-len(T_counts_array2[T_counts_array2==0])
-                print("vid: " + str(vid) + " min_wise: " + str(min_wise) + "," + str(len(T_counts_array)) + "," + str(len(T_counts_array[T_counts_array==0])) + " live_time: " + str(live_time) + "," + str(len(T_counts_array2)) + "," + str(len(T_counts_array2[T_counts_array2==0])))
+                # print("vid: " + str(vid) + " min_wise: " + str(min_wise) + "," + str(len(T_counts_array)) + "," + str(len(T_counts_array[T_counts_array==0])) + " live_time: " + str(live_time) + "," + str(len(T_counts_array2)) + "," + str(len(T_counts_array2[T_counts_array2==0])))
                 # print("consistency: ")
                 # for x in range(0, len(T_counts_array)):
                 #     print(T_counts_array[x]),
@@ -382,11 +382,6 @@ def run_etl(yr, mnth, dy):
                         gsm_all_d.append(final_result['gsm_average'][x])
                         noinfoinst_all_d.append(final_result['no_info_instances'][x])
             
-
-            print(vnum_undertest)
-            print(live_all_d)
-            print(cons_all_d)
-            
             if is_vnum_added == 0:
                 all_data_live.insert(0, "vehicle_number", vnum_undertest)
                 all_data_con.insert(0, "vehicle_number", vnum_undertest)
@@ -445,9 +440,9 @@ for dt in range(len(date_csv)):
     except Exception as e:
         print("error in run_etl is {}".format(e))
 
-all_data_live.to_csv(report_path_live)
-all_data_con.to_csv(report_path_con)
-all_data_gsm.to_csv(report_path_gsm)
-all_data_noinfo.to_csv(report_path_noinfo)
+    all_data_live.to_csv(report_path_live)
+    all_data_con.to_csv(report_path_con)
+    all_data_gsm.to_csv(report_path_gsm)
+    all_data_noinfo.to_csv(report_path_noinfo)
 
 print("Completed at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))

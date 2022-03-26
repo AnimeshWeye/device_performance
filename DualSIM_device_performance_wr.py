@@ -35,23 +35,26 @@ rearrange = 1
 pd.set_option("display.precision", 9)
 
 # path for csv
-date_csv_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/dates.csv"
-# date_csv_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/dates_solar.csv"
+# date_csv_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/dates.csv"
+date_csv_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/dates_solar.csv"
 # vehicle number csv
-path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_inhouse.csv"
+# path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_inhouse.csv"
 # path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_test.csv"
-# path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_solar.csv"
+path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_solar.csv"
 # path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_solar_prll.csv"
 
 vid_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_id.csv"
 # report paths 
 # report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports_test/report_{}_{}_{}.csv"
-report_path_live = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_inhouse_live.csv"
-report_path_con = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_inhouse_con.csv"
-report_path_gsm = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_inhouse_gsm.csv"
-report_path_noinfo = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_inhouse_noinfo.csv"
+report_path_live = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_{}_live.csv"
+report_path_con = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_{}_con.csv"
+report_path_gsm = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_{}_gsm.csv"
+report_path_noinfo = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_{}_noinfo.csv"
 # report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_solar_{}_{}_{}.csv"
 # report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_solar_parallel_{}_{}_{}.csv"
+
+# define test type: inhouse, inhouse_solar, solar, solar_prll, inhouse_prll
+test_type = "solar"
 
 # new dataframe for report generation
 
@@ -440,9 +443,9 @@ for dt in range(len(date_csv)):
     except Exception as e:
         print("error in run_etl is {}".format(e))
 
-    all_data_live.to_csv(report_path_live)
-    all_data_con.to_csv(report_path_con)
-    all_data_gsm.to_csv(report_path_gsm)
-    all_data_noinfo.to_csv(report_path_noinfo)
+    all_data_live.to_csv(report_path_live.format(str(test_type)))
+    all_data_con.to_csv(report_path_con.format(str(test_type)))
+    all_data_gsm.to_csv(report_path_gsm.format(str(test_type)))
+    all_data_noinfo.to_csv(report_path_noinfo.format(str(test_type)))
 
 print("Completed at {}".format(pd.to_datetime(tm.time()+19800,unit='s')))

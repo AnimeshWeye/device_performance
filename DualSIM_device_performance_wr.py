@@ -54,7 +54,7 @@ report_path_noinfo = "/home/ubuntu/vibhor/IoT/device_performance/device_performa
 # report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_solar_parallel_{}_{}_{}.csv"
 
 # define test type: inhouse, inhouse_solar, solar, solar_prll, inhouse_prll
-test_type = "solar"
+test_type = "solar_prll"
 
 # new dataframe for report generation
 

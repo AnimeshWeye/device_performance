@@ -35,13 +35,13 @@ rearrange = 1
 pd.set_option("display.precision", 9)
 
 # path for csv
-# date_csv_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/dates.csv"
-date_csv_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/dates_solar.csv"
+date_csv_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/dates.csv"
+# date_csv_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/dates_solar.csv"
 # vehicle number csv
-# path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_inhouse.csv"
+path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_inhouse.csv"
 # path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_test.csv"
 # path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_solar.csv"
-path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_solar_prll.csv"
+# path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_solar_prll.csv"
 
 vid_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_id.csv"
 # report paths 
@@ -54,7 +54,7 @@ report_path_noinfo = "/home/ubuntu/vibhor/IoT/device_performance/device_performa
 # report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_solar_parallel_{}_{}_{}.csv"
 
 # define test type: inhouse, inhouse_solar, solar, solar_prll, inhouse_prll
-test_type = "solar_prll"
+test_type = "inhouse"
 
 # new dataframe for report generation
 

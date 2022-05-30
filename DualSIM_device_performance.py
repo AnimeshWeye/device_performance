@@ -29,23 +29,23 @@ getdate=lambda x: pd.datetime.fromtimestamp(x)
 getDay=lambda x: pd.datetime.fromtimestamp(x).date()
 dttoday=int(tm.time()-tm.time()%86400-19800)
 
-rearrange = 0
+rearrange = 1
 
 pd.set_option("display.precision", 9)
 
 # path for csv
-# date_csv_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/dates.csv"
-date_csv_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/dates_solar.csv"
+date_csv_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/dates.csv"
+# date_csv_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/dates_solar.csv"
 # vehicle number csv
-# path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_inhouse.csv"
+path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_inhouse.csv"
 # path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_solar.csv"
-path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_solar_prll.csv"
+# path_vNum = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_number_solar_prll.csv"
 
 vid_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/vehicle_id.csv"
 # report paths 
-# report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_{}_{}_{}.csv"
+report_path = "/home/ubuntu/vibhor/IoT /device_performance/device_performance/reports/report_{}_{}_{}.csv"
 # report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_solar_{}_{}_{}.csv"
-report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_solar_parallel_{}_{}_{}.csv"
+# report_path = "/home/ubuntu/vibhor/IoT/device_performance/device_performance/reports/report_solar_parallel_{}_{}_{}.csv"
 
 def haversine(L1,L2):
     """

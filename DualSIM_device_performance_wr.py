@@ -370,7 +370,7 @@ def run_etl(yr, mnth, dy):
         if rearrange:
             for x in range((len(final_result))) :
                 print("rearranging report")
-                if((final_result['model_name'][x] != "WEYE01") & (final_result['model_name'][x] != "TMG")):
+                if((final_result['model_name'][x] == "WEYE01") & (final_result['model_name'][x] == "TMG")):
                     vhnum_str = final_result['vehicle_number'][x]
                     if is_vnum_added == 0:
                         print(vhnum_str)
